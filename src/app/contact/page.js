@@ -53,7 +53,11 @@ const ContactPage = () => {
       mainSrc={mainBackgroundSrc}
       borderSrc={borderSrc}
     >
-      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 45 }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ pl: 0, paddingY: 8, pb: 45, color: "black" }}
+      >
         <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           <Box
             sx={{

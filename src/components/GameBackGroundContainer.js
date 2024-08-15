@@ -1,5 +1,5 @@
 import React from "react";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 
 export const GameBackgroundGroundContainer = ({
   children,
@@ -13,12 +13,22 @@ export const GameBackgroundGroundContainer = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const mainBackgroundStyle = {
+    height: "100vh",
+    width: "100vw",
+    backgroundImage: borderBackgroundSrc,
+    backgroundRepeat: "repeat",
+    backgroundSize: "64px 64px",
+    zIndex: -2,
+  };
+
   const backgroundStyle = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    maxWidth: "lg",
+    height: "100vh",
+    flex: 1,
+    mx: "auto",
+    width: "64px",
+
     backgroundImage: mainSrc,
     backgroundRepeat: "repeat",
     backgroundSize: "64px 64px",
@@ -26,9 +36,6 @@ export const GameBackgroundGroundContainer = ({
   };
 
   const borderStyle = {
-    position: "fixed",
-    top: 0,
-    bottom: 0,
     width: isMobile ? "32px" : "64px",
     backgroundImage: borderSrc,
     backgroundRepeat: "repeat-y",
@@ -38,36 +45,56 @@ export const GameBackgroundGroundContainer = ({
 
   return (
     <>
-      {/* Background */}
-      <div style={backgroundStyle} />
-
-      {/* Left Border */}
-      <div style={{ ...borderStyle, left: 0 }} />
-
-      {/* Right Border */}
-      <div
-        style={{
-          ...borderStyle,
-          right: 0,
-          transform: borderSrc2 ? "none" : "scaleX(-1)",
-          backgroundImage: borderSrc2 || borderSrc,
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          height: "100vh",
+          width: !borderBackgroundSrc ? "calc(100vw)" : "calc(100vw - 64px)",
+          ...(borderBackgroundSrc ? mainBackgroundStyle : { bgcolor: bgColor }),
         }}
-      />
+      >
+        <Box
+          sx={{
+            display: "flex",
+            maxWidth: "lg",
+            mx: "auto",
+          }}
+        >
+          {/* Left Border */}
+          <Box sx={{ ...borderStyle, left: 0 }} />
+          {/* Background */}
+          <Box sx={backgroundStyle} />
+
+          {/* Right Border */}
+          <Box
+            sx={{
+              ...borderStyle,
+              right: 0,
+              transform: borderSrc2 ? "none" : "scaleX(-1)",
+              backgroundImage: borderSrc2 || borderSrc,
+            }}
+          />
+        </Box>
+      </Box>
 
       {/* Main Content */}
-      <div
-        style={{
+      <Box
+        sx={{
           width: "100vw",
           minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           position: "relative",
+          maxWidth: "lg",
+          mx: "auto",
           zIndex: 1,
         }}
       >
         {children}
-      </div>
+      </Box>
     </>
   );
 };

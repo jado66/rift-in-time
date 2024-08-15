@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 
+* {
+  ::-webkit-scrollbar {
+    width: 0 !important; /* Hide scrollbar for Chrome, Safari, and Opera */
+  }
+}
 /* Define a CSS class for the VT323 font */
 .vt323-regular {
   font-family: VT323 !important;

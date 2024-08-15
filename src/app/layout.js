@@ -2,6 +2,8 @@ import "./globals.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import Footer from "@/components/Footer";
 import { VT323 } from "@next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const vtT323 = VT323({
   weight: "400",
@@ -17,6 +19,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`vt323-regular ${vtT323.className}`}>
+        <ToastContainer theme="dark" />
+
         <div
           style={{
             display: "flex",
@@ -41,6 +45,9 @@ export default function RootLayout({ children }) {
               flexGrow: 1,
               paddingTop: "54px", // Adjust based on your header height
               paddingBottom: "100px", // Adjust based on your footer height
+              overflow: "scroll" /* Enable scrolling */,
+              msOverflowStyle: "none" /* Internet Explorer 10+ */,
+              scrollbarWidth: "none" /* Firefox */,
             }}
           >
             <div className="main-content">{children}</div>

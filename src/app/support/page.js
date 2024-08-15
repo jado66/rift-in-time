@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -21,6 +21,7 @@ import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContai
 import WalkingCharacter from "@/components/WalkingCharacter";
 import Link from "next/link";
 import { Send } from "@mui/icons-material";
+import useSubscribe from "@/hooks/useSubscribe";
 
 const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAECAIAAADJUWIXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAXSURBVBhXY/z3/z8DEmCC0jCAn8/AAAC6RwME3Di+XgAAAABJRU5ErkJggg==')`;
 
@@ -68,12 +69,29 @@ const Copy = () => {
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
 
-  const handleNewsletterSubscription = (event) => {
+  const [email, setEmail] = useState("");
+  const { loading, error, success, subscribe } = useSubscribe();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (success) {
+      setIsSubmitted(true);
+    }
+  }, [success]);
+
+  const handleNewsletterSubscription = async (event) => {
     event.preventDefault();
-    alert(
-      "Come back in a couple days and this should work. You can email jd@platinumprogramming.com for questions."
-    );
-    // Handle newsletter subscription logic here
+    if (email && !isSubmitted) {
+      await subscribe(email);
+      if (success) {
+        setEmail(""); // Clear the input on success
+      }
+    }
+  };
+
+  const handleReset = () => {
+    setEmail("");
+    setIsSubmitted(false);
   };
 
   const handlePreBuy = () => {
@@ -137,10 +155,21 @@ const Copy = () => {
                 label="Your Email Address"
                 variant="outlined"
                 fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading || isSubmitted}
+                error={!!error}
+                helperText={
+                  error || (isSubmitted ? "Thank you for subscribing!" : "")
+                }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton type="submit" color="primary">
+                      <IconButton
+                        type="submit"
+                        color="primary"
+                        disabled={loading || isSubmitted}
+                      >
                         <Send />
                       </IconButton>
                     </InputAdornment>
