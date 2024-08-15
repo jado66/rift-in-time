@@ -37,7 +37,11 @@ const Support = () => {
       mainSrc={mainBackgroundSrc}
       borderSrc={borderSrc}
     >
-      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 45 }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ pl: 0, paddingY: 8, pb: 45, pr: { md: 4, xs: 2 } }}
+      >
         <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           {/* Walking character */}
           <Box
@@ -263,31 +267,9 @@ const Copy = () => {
               primary={
                 <>
                   <strong>Email:</strong>{" "}
-                  <Link href="mailto:developer@example.com">
-                    developer@example.com
+                  <Link href="mailto:jd@platinumprogramming.co">
+                    jd@platinumprogramming.com
                   </Link>
-                </>
-              }
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary={
-                <>
-                  <strong>Twitter:</strong>{" "}
-                  <Link href="https://twitter.com/ARiftInTimeGame">
-                    @ARiftInTimeGame
-                  </Link>
-                </>
-              }
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary={
-                <>
-                  <strong>Discord:</strong>{" "}
-                  <Link href="#">Join our Community</Link>
                 </>
               }
             />

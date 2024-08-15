@@ -106,7 +106,25 @@ const Copy = () => {
   return (
     <div style={{ color: "white" }}>
       {/* ... (previous content remains the same) */}
+      <Box my={4}>
+        <Typography variant="h2" gutterBottom>
+          Welcome to the <em>A Rift In Time</em>!
+        </Typography>
+        <Typography variant="body1" paragraph>
+          A captivating 2D top-down RPG sandbox where vibrant pixel art and rich
+          storytelling intertwine for an unforgettable journey through time and
+          various worlds. As a fearless hero, navigate dynamic realms filled
+          with secrets, treasures, and mysteries, mastering unique time
+          manipulation abilities to solve puzzles and outsmart foes. Traverse
+          diverse, meticulously crafted realms, gather resources, craft tools,
+          build sanctuaries, and experience immersive day-night cycles with
+          strategic gameplay. Forge lasting bonds with a diverse cast, explore
+          vast worlds brimming with quests, and help shape the game's future
+          with your invaluable alpha build feedback.
+        </Typography>
+      </Box>
 
+      <Divider sx={{ borderColor: "white" }} />
       <Box my={4} sx={{ display: "flex", flexDirection: "column" }}>
         <Typography variant="h4" gutterBottom>
           Play <em>A Rift In Time</em> - Version Alpha 1.0

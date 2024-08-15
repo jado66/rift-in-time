@@ -172,8 +172,8 @@ const Copy = ({ matchesMd, color }) => {
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           At the core of <em>A Rift In Time</em> lies the unique ability to
           manipulate the fabric of time. Revisit previous moments in your
-          adventure to be "in two places at the same time," enabling you to
-          solve complex puzzles, outsmart cunning foes, and confront formidable
+          adventure to be in two places at the same time, enabling you to solve
+          complex puzzles, outsmart cunning foes, and confront formidable
           bosses. Your past actions are recorded, allowing for strategic
           planning and creative gameplay.
         </Typography>
