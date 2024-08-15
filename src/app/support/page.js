@@ -40,7 +40,7 @@ const Support = () => {
       <Grid
         container
         spacing={2}
-        sx={{ pl: 0, paddingY: 8, pb: 45, pr: { md: 4, xs: 2 } }}
+        sx={{ pl: 0, pt: 8, pb: 45, pr: { md: 4, xs: 2 } }}
       >
         <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           {/* Walking character */}
@@ -65,6 +65,9 @@ const Support = () => {
 export default Support;
 
 const Copy = () => {
+  const theme = useTheme();
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+
   const handleNewsletterSubscription = (event) => {
     event.preventDefault();
     alert(
@@ -81,11 +84,11 @@ const Copy = () => {
   return (
     <div style={{ color: "black" }}>
       <Box my={4}>
-        <Typography variant="h2" gutterBottom>
+        <Typography variant={matchesMd ? "h2" : "h4"} gutterBottom>
           Support Our Development
         </Typography>
 
-        <Typography variant="body1" paragraph>
+        <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           Thank you for showing interest in supporting{" "}
           <strong>
             <em>A Rift In Time</em>!
@@ -98,23 +101,32 @@ const Copy = () => {
       <Divider sx={{ my: 6 }} />
 
       <Box mt={4}>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
           Join Our Newsletter
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           Stay connected and informed by joining our newsletter. As a
           subscriber, you'll receive:
         </Typography>
 
         <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText primary="The latest news and updates on development progress." />
+            <ListItemText
+              primary="The latest news and updates on development progress."
+              variant={matchesMd ? "body1" : "body2"}
+            />
           </ListItem>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText primary="Exclusive content and behind-the-scenes insights." />
+            <ListItemText
+              primary="Exclusive content and behind-the-scenes insights."
+              variant={matchesMd ? "body1" : "body2"}
+            />
           </ListItem>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText primary="Special offers and early access announcements." />
+            <ListItemText
+              primary="Special offers and early access announcements."
+              variant={matchesMd ? "body1" : "body2"}
+            />
           </ListItem>
         </List>
 
@@ -143,10 +155,10 @@ const Copy = () => {
       <Divider sx={{ my: 6 }} />
 
       <Box mt={6}>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
           Alpha Release & Free Demo
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           We're thrilled to announce that this alpha release will transform into
           a game demo that will remain free to play. Test the game, give us your
           feedback, and help shape the future of{" "}
@@ -158,10 +170,10 @@ const Copy = () => {
       <Divider sx={{ my: 6 }} />
 
       <Box mt={6} display="flex" flexDirection="column">
-        <Typography variant="h3" gutterBottom>
+        <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
           Pre-Buy Offer
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           Secure your copy of{" "}
           <strong>
             <em>A Rift In Time</em>
@@ -172,10 +184,16 @@ const Copy = () => {
 
         <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText primary="Save on the final price range of $15-20." />
+            <ListItemText
+              primary="Save on the final price range of $15-20."
+              variant={matchesMd ? "body1" : "body2"}
+            />
           </ListItem>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText primary="Receive unique, exclusive in-game assets as a token of our gratitude for your early support." />
+            <ListItemText
+              primary="Receive unique, exclusive in-game assets as a token of our gratitude for your early support."
+              variant={matchesMd ? "body1" : "body2"}
+            />
           </ListItem>
         </List>
 
@@ -193,24 +211,30 @@ const Copy = () => {
       <Divider sx={{ my: 6 }} />
 
       <Box mt={6}>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
           Why Your Support Matters
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           As the sole developer, my expertise lies in engineering rather than
           art. Your support allows me to:
         </Typography>
 
         <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText primary="Hire talented artists to enhance the visual storytelling." />
+            <ListItemText
+              primary="Hire talented artists to enhance the visual storytelling."
+              variant={matchesMd ? "body1" : "body2"}
+            />
           </ListItem>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText primary="Purchase premium game assets to enrich the game's ambiance and overall appeal." />
+            <ListItemText
+              primary="Purchase premium game assets to enrich the game's ambiance and overall appeal."
+              variant={matchesMd ? "body1" : "body2"}
+            />
           </ListItem>
         </List>
 
-        <Typography variant="body1" paragraph>
+        <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           Every contribution goes directly towards making{" "}
           <strong>
             <em>A Rift In Time</em>
@@ -222,7 +246,7 @@ const Copy = () => {
       <Divider sx={{ my: 6 }} />
 
       <Box mt={6}>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
           How to Support Us
         </Typography>
 
@@ -230,21 +254,25 @@ const Copy = () => {
           <ListItem>
             <ListItemText
               primary={`Join Our Community: Engage with us on social media and join discussions on platforms like Discord to share your thoughts and ideas.`}
+              variant={matchesMd ? "body1" : "body2"}
             />
           </ListItem>
           <ListItem>
             <ListItemText
               primary={`Spread the Word: Tell your friends and family about "A Rift In Time." Every mention helps us grow.`}
+              variant={matchesMd ? "body1" : "body2"}
             />
           </ListItem>
           <ListItem>
             <ListItemText
               primary={`Provide Feedback: Play the alpha build and leave us feedback. Your insights are essential for our improvement.`}
+              variant={matchesMd ? "body1" : "body2"}
             />
           </ListItem>
           <ListItem>
             <ListItemText
               primary={`Make a Donation: If you wish to provide additional support, consider making a donation. Every bit helps us move closer to our vision.`}
+              variant={matchesMd ? "body1" : "body2"}
             />
           </ListItem>
         </List>
@@ -253,10 +281,10 @@ const Copy = () => {
       <Divider sx={{ my: 6 }} />
 
       <Box mt={6}>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
           Get in Touch
         </Typography>
-        <Typography variant="body1" paragraph>
+        <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           For any questions, suggestions, or if you just want to chat about the
           game, feel free to reach out through:
         </Typography>

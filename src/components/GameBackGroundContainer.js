@@ -1,4 +1,5 @@
-import { Container } from "@mui/material";
+import React from "react";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 export const GameBackgroundGroundContainer = ({
   children,
@@ -9,79 +10,64 @@ export const GameBackgroundGroundContainer = ({
   borderBackgroundSrc,
   applyMainToEdges,
 }) => {
-  const mainBackgroundStyle = {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const backgroundStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundImage: mainSrc,
     backgroundRepeat: "repeat",
     backgroundSize: "64px 64px",
-    minHeight: "100vh",
+    zIndex: -2,
   };
 
   const borderStyle = {
+    position: "fixed",
+    top: 0,
+    bottom: 0,
+    width: isMobile ? "32px" : "64px",
     backgroundImage: borderSrc,
     backgroundRepeat: "repeat-y",
     backgroundSize: "64px 64px",
-    width: "64px",
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-  };
-
-  const borderBackgroundStyle = {
-    backgroundImage: borderBackgroundSrc,
-    backgroundRepeat: "repeat",
-    backgroundSize: "64px 64px",
-    minHeight: "100vh",
+    zIndex: -1,
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        display: "flex",
-        justifyContent: "center",
-        overflow: "hidden",
-        ...(borderBackgroundSrc
-          ? borderBackgroundStyle
-          : { backgroundColor: bgColor }),
-      }}
-    >
-      <Container
-        maxWidth="lg"
-        disableGutters
-        sx={{
-          display: "flex",
+    <>
+      {/* Background */}
+      <div style={backgroundStyle} />
+
+      {/* Left Border */}
+      <div style={{ ...borderStyle, left: 0 }} />
+
+      {/* Right Border */}
+      <div
+        style={{
+          ...borderStyle,
+          right: 0,
+          transform: borderSrc2 ? "none" : "scaleX(-1)",
+          backgroundImage: borderSrc2 || borderSrc,
+        }}
+      />
+
+      {/* Main Content */}
+      <div
+        style={{
+          width: "100vw",
           minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           position: "relative",
+          zIndex: 1,
         }}
       >
-        <div
-          style={{
-            ...borderStyle,
-            left: 0,
-          }}
-        />
-        <div
-          style={{
-            ...borderStyle,
-            right: 0,
-            transform: borderSrc2 ? "none" : "scaleX(-1)",
-            backgroundImage: borderSrc2 || borderSrc,
-          }}
-        />
-        <div
-          style={{
-            flexGrow: 1,
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-            background: mainBackgroundStyle.backgroundImage,
-            backgroundRepeat: mainBackgroundStyle.backgroundRepeat,
-            backgroundSize: mainBackgroundStyle.backgroundSize,
-          }}
-        >
-          {children}
-        </div>
-      </Container>
-    </div>
+        {children}
+      </div>
+    </>
   );
 };

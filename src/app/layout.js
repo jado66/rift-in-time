@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
           <main
             style={{
               flexGrow: 1,
-              paddingTop: "64px", // Adjust based on your header height
+              paddingTop: "54px", // Adjust based on your header height
               paddingBottom: "100px", // Adjust based on your footer height
             }}
           >

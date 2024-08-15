@@ -66,20 +66,17 @@ const ContactPage = () => {
             <WalkingCharacter type="Sand" />
           </Box>
         </Grid>
-        <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
+        <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 1 }}>
           <Container maxWidth="md">
-            <Paper
+            <Box
               elevation={3}
               sx={{
-                p: 4,
-                backgroundColor: "rgba(255, 255, 255, 0.8)",
-                borderRadius: "16px",
-                border: "2px solid #FFD700",
-                boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+                p: 1,
+                mr: 2,
               }}
             >
               <Typography
-                variant="h2"
+                variant={matchesMd ? "h2" : "h4"}
                 gutterBottom
                 sx={{
                   textAlign: "center",
@@ -89,9 +86,13 @@ const ContactPage = () => {
                 Contact Us
               </Typography>
               <Typography
-                variant="body1"
                 paragraph
-                sx={{ mb: 4, textAlign: "center", color: "#333" }}
+                sx={{
+                  mb: 4,
+                  textAlign: matchesMd ? "center" : "left",
+                  color: "#333",
+                }}
+                variant={matchesMd ? "body1" : "body2"}
               >
                 Have a question about your adventure in <em>A Rift in Time</em>?
                 Curious about game mechanics or need assistance? We're here to
@@ -99,7 +100,7 @@ const ContactPage = () => {
                 as soon as possible.
               </Typography>
               <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
+                <Grid container spacing={3} sx={{ pr: 2 }}>
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
@@ -110,6 +111,8 @@ const ContactPage = () => {
                       required
                       variant="outlined"
                       sx={{
+                        backgroundColor: "white",
+                        mr: 1,
                         "& .MuiOutlinedInput-root": {
                           "& fieldset": { borderColor: "#4A0E4E" },
                         },
@@ -127,6 +130,8 @@ const ContactPage = () => {
                       required
                       variant="outlined"
                       sx={{
+                        backgroundColor: "white",
+
                         "& .MuiOutlinedInput-root": {
                           "& fieldset": { borderColor: "#4A0E4E" },
                         },
@@ -145,6 +150,8 @@ const ContactPage = () => {
                       required
                       variant="outlined"
                       sx={{
+                        backgroundColor: "white",
+
                         "& .MuiOutlinedInput-root": {
                           "& fieldset": { borderColor: "#4A0E4E" },
                         },
@@ -168,7 +175,10 @@ const ContactPage = () => {
                 </Grid>
               </form>
 
-              <Typography sx={{ mt: 3 }}>
+              <Typography
+                sx={{ mt: 3 }}
+                variant={matchesMd ? "body1" : "body2"}
+              >
                 Your feedback and questions are valuable to us as we continue to
                 develop and improve A Rift in Time. Whether you're wondering
                 about gameplay features, encountering issues, or just want to
@@ -184,7 +194,6 @@ const ContactPage = () => {
                 variant="h2"
                 gutterBottom
                 sx={{
-                  color: "#4A0E4E",
                   textAlign: "center",
                   fontFamily: "'Press Start 2P', cursive",
                   fontSize: "2rem",
@@ -210,7 +219,7 @@ const ContactPage = () => {
                     }}
                   >
                     <AccordionSummary
-                      expandIcon={<ExpandMore sx={{ color: "#4A0E4E" }} />}
+                      expandIcon={<ExpandMore />}
                       sx={{
                         backgroundColor: "rgba(74, 14, 78, 0.1)",
                         borderRadius: "8px",
@@ -219,19 +228,22 @@ const ContactPage = () => {
                         },
                       }}
                     >
-                      <Typography sx={{ fontWeight: "bold", color: "#4A0E4E" }}>
+                      <Typography
+                        variant={matchesMd ? "body1" : "body2"}
+                        sx={{ fontWeight: "bold" }}
+                      >
                         {faq.question}
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography sx={{ color: "#333" }}>
+                      <Typography variant={matchesMd ? "body1" : "body2"}>
                         {faq.answer}
                       </Typography>
                     </AccordionDetails>
                   </Accordion>
                 ))}
               </Box>
-            </Paper>
+            </Box>
           </Container>
         </Grid>
       </Grid>
