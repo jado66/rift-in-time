@@ -11,6 +11,7 @@ import {
 import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContainer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import SignHeader from "@/components/SignHeader";
+import WalkingCharacter from "@/components/WalkingCharacter"; // SimpleCharacter,
 
 const AboutPage = () => {
   const theme = useTheme();
@@ -23,6 +24,33 @@ const AboutPage = () => {
       mainSrc={grassBackgroundSrc}
       borderSrc={waterToGrassSrc}
     >
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={2}>
+          {/* Walking character */}
+          <WalkingCharacter />
+        </Grid>
+        <Grid item xs={12} md={10}>
+          {/* Copy content */}
+          <Copy matchesMd={matchesMd} />
+        </Grid>
+      </Grid>
+
+      <Copy matchesMd={matchesMd} />
+      {/* <SimpleCharacter /> */}
+    </GameBackgroundGroundContainer>
+  );
+};
+
+export default AboutPage;
+
+const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAASUExURTq+QWrdSzq7Pjq6PjKOQTq5PuZdsVoAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjPYyAWMKLRyAJMSsKGDAwsDEqKxsIgGiQgApJTUjR0BisCCghDBYyhAs5gGSUVE4gAEUAAzQVYAJNSqCjEHggNFBCFCKiIoglAaaCAqytEAEITCSgNjyHhfQYGAJgEECJ5G9oTAAAAAElFTkSuQmCC')`;
+
+const waterToGrassSrc =
+  'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURR58uP///zq+QTKOQWrdS3j7ZvQAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABXSURBVCjP5ZDBDYAwDAPpCmUDkwlSJnC8/0wIHkjuowyAfznFtpLtVcOjBdhn0GPa6AJolgIVniHJW84qB8fIZe09hgOizBIkDSiR1jI8tOXX+T/8B3ABNS8gG2/1+LQAAAAASUVORK5CYII=")';
+
+const Copy = ({ matchesMd }) => {
+  return (
+    <>
       <Box my={4}>
         <Box sx={{ textAlign: "center" }}>
           <SignHeader>
@@ -143,13 +171,6 @@ const AboutPage = () => {
           magical experience for all.
         </Typography>
       </Box>
-    </GameBackgroundGroundContainer>
+    </>
   );
 };
-
-export default AboutPage;
-
-const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAASUExURTq+QWrdSzq7Pjq6PjKOQTq5PuZdsVoAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjPYyAWMKLRyAJMSsKGDAwsDEqKxsIgGiQgApJTUjR0BisCCghDBYyhAs5gGSUVE4gAEUAAzQVYAJNSqCjEHggNFBCFCKiIoglAaaCAqytEAEITCSgNjyHhfQYGAJgEECJ5G9oTAAAAAElFTkSuQmCC')`;
-
-const waterToGrassSrc =
-  'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURR58uP///zq+QTKOQWrdS3j7ZvQAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABXSURBVCjP5ZDBDYAwDAPpCmUDkwlSJnC8/0wIHkjuowyAfznFtpLtVcOjBdhn0GPa6AJolgIVniHJW84qB8fIZe09hgOizBIkDSiR1jI8tOXX+T/8B3ABNS8gG2/1+LQAAAAASUVORK5CYII=")';

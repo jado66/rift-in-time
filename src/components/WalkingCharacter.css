@@ -1,0 +1,45 @@
+.character-container {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.character {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 69px;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.character img {
+  width: 192px; /* 4 frames */
+  height: 69px;
+  object-fit: none;
+  object-position: 0 0;
+  image-rendering: pixelated;
+}
+
+.walkingDown img,
+.walkingUp img {
+  animation: walkCycle 0.4s steps(4) infinite;
+}
+
+@keyframes walkCycle {
+  from {
+    object-position: 0 0;
+  }
+  to {
+    object-position: -192px 0;
+  }
+}
+
+.idle img {
+  object-position: 0 0;
+}
