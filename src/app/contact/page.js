@@ -295,7 +295,7 @@ const faqData = [
   {
     question: "How does the time manipulation mechanic work?",
     answer:
-      "The time manipulation mechanic allows you to revisit previous moments in your adventure. This enables you to be 'in two places at once', solving complex puzzles and overcoming challenging obstacles. Your past actions are recorded, allowing for strategic planning and creative gameplay.",
+      "The time manipulation mechanic allows you to revisit previous moments in your adventure. This enables you to be 'in two places at once', solving complex puzzles and overcoming challenging obstacles. Your past actions are recorded, allowing for strategic planning and creative gameplay. **Note this feature is currently in development.",
   },
   {
     question: "Can I build and craft in the game?",
@@ -310,16 +310,16 @@ const faqData = [
   {
     question: "Is there a storyline to follow?",
     answer:
-      "Yes! While 'A Rift in Time' offers sandbox elements, it also features a rich storyline filled with diverse characters, each with their own stories and personalities. Your decisions will impact the evolving narrative and the world around you.",
+      "Yes... eventually! While 'A Rift in Time' offers sandbox elements, it will feature a rich storyline filled with diverse characters, each with their own stories and personalities. Your decisions will impact the evolving narrative and the world around you.",
   },
   {
     question: "How often is the game updated?",
     answer:
-      "As an alpha build, we're constantly working on improvements and new features. We release updates regularly based on player feedback and our development roadmap. Stay tuned to our official channels for the latest update information!",
+      "As an alpha build, we're constantly working on improvements and new features. Updates are released on a weekly basis. Subscribe to our newsletter to receive the latest update information!",
   },
   {
     question: "How can I provide feedback or report bugs?",
     answer:
-      "We greatly value player feedback! You can provide feedback or report bugs through our official forum, our Discord channel, or by using the contact form on our website. Your insights help us refine and enhance the game.",
+      "We greatly value player feedback! You can provide feedback or report bugs by using the contact form on our website or by emailing JD@platinumprogramming.com. Your insights help us refine and enhance the game.",
   },
 ];
