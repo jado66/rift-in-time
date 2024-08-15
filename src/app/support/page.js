@@ -13,10 +13,14 @@ import {
   ListItemText,
   TextField,
   Button,
+  InputAdornment,
+  IconButton,
+  Divider,
 } from "@mui/material";
 import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContainer";
 import WalkingCharacter from "@/components/WalkingCharacter";
 import Link from "next/link";
+import { Send } from "@mui/icons-material";
 
 const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAECAIAAADJUWIXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAXSURBVBhXY/z3/z8DEmCC0jCAn8/AAAC6RwME3Di+XgAAAABJRU5ErkJggg==')`;
 
@@ -33,7 +37,7 @@ const Support = () => {
       mainSrc={mainBackgroundSrc}
       borderSrc={borderSrc}
     >
-      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
+      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 45 }}>
         <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           {/* Walking character */}
           <Box
@@ -59,25 +63,35 @@ export default Support;
 const Copy = () => {
   const handleNewsletterSubscription = (event) => {
     event.preventDefault();
+    alert(
+      "Come back in a couple days and this should work. You can email jd@platinumprogramming.com for questions."
+    );
     // Handle newsletter subscription logic here
   };
 
   const handlePreBuy = () => {
-    // Handle pre-buy logic here
+    alert(
+      "Come back in a couple weeks and this should work. You can email jd@platinumprogramming.com for questions."
+    );
   };
   return (
     <div style={{ color: "black" }}>
       <Box my={4}>
         <Typography variant="h2" gutterBottom>
-          Support "A Rift In Time"
+          Support Our Development
         </Typography>
 
         <Typography variant="body1" paragraph>
           Thank you for showing interest in supporting{" "}
-          <strong>"A Rift In Time!"</strong> Your support is invaluable and
-          helps me, as the sole developer, bring this captivating world to life.
+          <strong>
+            <em>A Rift In Time</em>!
+          </strong>{" "}
+          Your support is invaluable and helps me, as the sole developer, bring
+          this captivating world to life.
         </Typography>
       </Box>
+
+      <Divider sx={{ my: 6 }} />
 
       <Box mt={4}>
         <Typography variant="h3" gutterBottom>
@@ -88,36 +102,41 @@ const Copy = () => {
           subscriber, you'll receive:
         </Typography>
 
-        <List>
-          <ListItem>
+        <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
+          <ListItem style={{ display: "list-item" }}>
             <ListItemText primary="The latest news and updates on development progress." />
           </ListItem>
-          <ListItem>
+          <ListItem style={{ display: "list-item" }}>
             <ListItemText primary="Exclusive content and behind-the-scenes insights." />
           </ListItem>
-          <ListItem>
+          <ListItem style={{ display: "list-item" }}>
             <ListItemText primary="Special offers and early access announcements." />
           </ListItem>
         </List>
 
         <form onSubmit={handleNewsletterSubscription}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={8}>
-              <TextField label="Email Address" variant="outlined" fullWidth />
-            </Grid>
-            <Grid item xs={4}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
+            <Grid item xs={11} sx={{ m: "auto", mt: 2 }}>
+              <TextField
+                label="Your Email Address"
+                variant="outlined"
                 fullWidth
-              >
-                Subscribe
-              </Button>
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton type="submit" color="primary">
+                        <Send />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
             </Grid>
           </Grid>
         </form>
       </Box>
+
+      <Divider sx={{ my: 6 }} />
 
       <Box mt={6}>
         <Typography variant="h3" gutterBottom>
@@ -132,29 +151,42 @@ const Copy = () => {
         </Typography>
       </Box>
 
-      <Box mt={6}>
+      <Divider sx={{ my: 6 }} />
+
+      <Box mt={6} display="flex" flexDirection="column">
         <Typography variant="h3" gutterBottom>
           Pre-Buy Offer
         </Typography>
         <Typography variant="body1" paragraph>
-          Secure your copy of <strong>"A Rift In Time"</strong> now by
-          pre-buying at an exclusive price of <strong>$10</strong>! Here's what
-          you'll get:
+          Secure your copy of{" "}
+          <strong>
+            <em>A Rift In Time</em>
+          </strong>{" "}
+          now by pre-buying at an exclusive price of <strong>$10</strong>!
+          Here's what you'll get:
         </Typography>
 
-        <List>
-          <ListItem>
+        <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
+          <ListItem style={{ display: "list-item" }}>
             <ListItemText primary="Save on the final price range of $15-20." />
           </ListItem>
-          <ListItem>
+          <ListItem style={{ display: "list-item" }}>
             <ListItemText primary="Receive unique, exclusive in-game assets as a token of our gratitude for your early support." />
           </ListItem>
         </List>
 
-        <Button variant="contained" color="primary" onClick={handlePreBuy}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={handlePreBuy}
+          sx={{ m: "auto" }}
+        >
           Pre-Buy Now
         </Button>
       </Box>
+
+      <Divider sx={{ my: 6 }} />
 
       <Box mt={6}>
         <Typography variant="h3" gutterBottom>
@@ -165,28 +197,32 @@ const Copy = () => {
           art. Your support allows me to:
         </Typography>
 
-        <List>
-          <ListItem>
+        <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
+          <ListItem style={{ display: "list-item" }}>
             <ListItemText primary="Hire talented artists to enhance the visual storytelling." />
           </ListItem>
-          <ListItem>
+          <ListItem style={{ display: "list-item" }}>
             <ListItemText primary="Purchase premium game assets to enrich the game's ambiance and overall appeal." />
           </ListItem>
         </List>
 
         <Typography variant="body1" paragraph>
           Every contribution goes directly towards making{" "}
-          <strong>"A Rift In Time"</strong> an even more immersive and magical
-          experience.
+          <strong>
+            <em>A Rift In Time</em>
+          </strong>{" "}
+          an even more immersive and magical experience.
         </Typography>
       </Box>
+
+      <Divider sx={{ my: 6 }} />
 
       <Box mt={6}>
         <Typography variant="h3" gutterBottom>
           How to Support Us
         </Typography>
 
-        <List>
+        <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
           <ListItem>
             <ListItemText
               primary={`Join Our Community: Engage with us on social media and join discussions on platforms like Discord to share your thoughts and ideas.`}
@@ -209,6 +245,8 @@ const Copy = () => {
           </ListItem>
         </List>
       </Box>
+
+      <Divider sx={{ my: 6 }} />
 
       <Box mt={6}>
         <Typography variant="h3" gutterBottom>

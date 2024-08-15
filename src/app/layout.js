@@ -1,11 +1,11 @@
 import "./globals.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
-
+import Footer from "@/components/Footer";
 import { VT323 } from "@next/font/google";
 
 const vtT323 = VT323({
-  weight: "400", // You can specify different weights if needed
-  subsets: ["latin"], // Specify the subset used
+  weight: "400",
+  subsets: ["latin"],
 });
 
 export const metadata = {
@@ -19,10 +19,10 @@ export default function RootLayout({ children }) {
       <body className={`vt323-regular ${vtT323.className}`}>
         <div
           style={{
+            display: "flex",
+            flexDirection: "column",
             minHeight: "100vh",
-            paddingTop: "64px", // Adjust this value based on your header height
-            paddingBottom: "50px", // Adjust this value based on your footer height
-            overflowY: "hidden",
+            position: "relative",
           }}
         >
           <header
@@ -36,35 +36,29 @@ export default function RootLayout({ children }) {
           >
             <ResponsiveAppBar />
           </header>
-          <main style={{ marginTop: "-4em", marginBottom: "-4em" }}>
-            <div className="main-content">{children}</div>
-          </main>
-          <footer
-            className="footer"
+          <main
             style={{
-              position: "fixed",
-              bottom: 0,
-              left: 0,
-              padding: 0,
-              right: 0,
-              zIndex: 1000,
+              flexGrow: 1,
+              paddingTop: "64px", // Adjust based on your header height
+              paddingBottom: "100px", // Adjust based on your footer height
             }}
           >
-            <div
-              style={{
-                background:
-                  "linear-gradient(to bottom, transparent 0%,   rgba(0, 0, 0, 0.97) 80%)",
-                height: "350px",
-              }}
-            ></div>
-            <div
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.97)",
-                height: "25px",
-              }}
-            ></div>
-            {/* Footer content */}
-          </footer>
+            <div className="main-content">{children}</div>
+          </main>
+          <div
+            style={{
+              position: "fixed",
+              bottom: 0, // Adjust based on your footer height
+              left: 0,
+              right: 0,
+              height: "250px",
+              background:
+                "linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 45%)",
+              pointerEvents: "none",
+              zIndex: 998,
+            }}
+          />
+          <Footer />
         </div>
       </body>
     </html>

@@ -92,7 +92,7 @@ const AboutPage = () => {
       borderBackgroundSrc={treeBackground}
       applyMainToEdges
     >
-      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 25 }}>
+      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 45 }}>
         <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           <Box
             sx={{
@@ -136,15 +136,15 @@ const Copy = ({ matchesMd, color }) => {
         <Box sx={{ textAlign: "center" }}>
           <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
             Welcome to the enchanting world of <br />
-            "A Rift In Time!"
+            <em>A Rift In Time</em>!
           </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
           Step into a mesmerizing 2D universe where adventure and imagination
           intertwine. Brought to life with vibrant pixel art and rich
-          storytelling, "A Rift In Time" offers an unforgettable journey through
-          time and space.
+          storytelling, <em>A Rift In Time</em> offers an unforgettable journey
+          through time and space.
         </Typography>
       </Box>
       <Box mb={4}>
@@ -170,12 +170,12 @@ const Copy = ({ matchesMd, color }) => {
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
-          At the core of "A Rift In Time" lies the unique ability to manipulate
-          the fabric of time. Revisit previous moments in your adventure to be
-          "in two places at the same time," enabling you to solve complex
-          puzzles, outsmart cunning foes, and confront formidable bosses. Your
-          past actions are recorded, allowing for strategic planning and
-          creative gameplay.
+          At the core of <em>A Rift In Time</em> lies the unique ability to
+          manipulate the fabric of time. Revisit previous moments in your
+          adventure to be "in two places at the same time," enabling you to
+          solve complex puzzles, outsmart cunning foes, and confront formidable
+          bosses. Your past actions are recorded, allowing for strategic
+          planning and creative gameplay.
         </Typography>
       </Box>
       <Box my={4}>
@@ -252,10 +252,11 @@ const Copy = ({ matchesMd, color }) => {
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
-          The world of "A Rift In Time" is vast and brimming with opportunities
-          for exploration. Unearth hidden dungeons, solve intricate puzzles, and
-          battle formidable foes. With countless quests and side adventures,
-          there's always something new to discover and experience.
+          The world of <em>A Rift In Time</em> is vast and brimming with
+          opportunities for exploration. Unearth hidden dungeons, solve
+          intricate puzzles, and battle formidable foes. With countless quests
+          and side adventures, there's always something new to discover and
+          experience.
         </Typography>
       </Box>
       <Box my={4}>

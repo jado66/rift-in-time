@@ -1,39 +1,60 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
   Container,
   Grid,
   Paper,
-  useTheme,
+  TextField,
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Divider,
 } from "@mui/material";
 import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContainer";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import SignHeader from "@/components/SignHeader";
-import WalkingCharacter from "@/components/WalkingCharacter"; // SimpleCharacter,
-import { ScrollYProvider, useScrollY } from "@/components/ScrollYContext";
+import { useTheme } from "@mui/material";
+import WalkingCharacter from "@/components/WalkingCharacter";
+import { ExpandMore } from "@mui/icons-material";
 
 const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURe7Xjvzmm2xdNW4AAAAJcEhZcwAADsIAAA7CARUoSoAAAABiSURBVCjP7ZCBDQAhDALrBmX/Zb9QMA7xifEqVkSrgDpAX87cVpe9MkIJ3A9HYjFLcwR64ZI2rC7ZqCtDnZypQ/U1M4RKdtZB5EllMCvjKRnKDsWkdgj1SPixSvr/x/MfqA/DHhWJyZpSdgAAAABJRU5ErkJggg==')`;
 
 const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURVGv66WJWvzmm+7Xjo3h/ypV5gwAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABzSURBVCjP7ZDREcAgCEPrXSewG8AGZv/dSgJoh6g/ykNC4NKZ5jDDMvMEjyJHUMUjXs503AkiT8B/BSIEgTeIENQ0HJAkwT1VoNYNXJLtY9AD264DpMDWG1DhAJTCx3oqoJzek2OxAOjxNex2+u+j9mF4AZCNNsuISVGDAAAAAElFTkSuQmCC')`;
-const borderSrc2 = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURe7Xjvzmm6WJWlGv643h/1ACC6MAAAAJcEhZcwAADsAAAA7AAWrWiQkAAABvSURBVCjP7ZBbFcAwCENTB6QWJgEJ8+9pDa+aWH84XDhJCkBikQZu18PpLGkBizF46jNA8wGEwGkxQJpUrY0kqg1kKbBfL6DOBkQqZWmXSLZCqTQsQklpXJhZBihUKPVGKozLihg6QX//v8e9h/sHECIt80jrxn4AAAAASUVORK5CYII=')`;
 
 const ContactPage = () => {
   const theme = useTheme();
-
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const [expanded, setExpanded] = useState(false);
+
+  const handleFormChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  const handleSubmit = (e) => {
+    alert(
+      "Come back in a couple weeks and this should work. You can email jd@platinumprogramming.com for questions."
+    );
+  };
 
   return (
     <GameBackgroundGroundContainer
       bgColor="#51AFEB"
       mainSrc={mainBackgroundSrc}
       borderSrc={borderSrc}
-      borderSrc2={borderSrc2}
     >
-      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
+      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 45 }}>
         <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
-          {/* Walking character */}
           <Box
             sx={{
               p: 0,
@@ -46,134 +67,214 @@ const ContactPage = () => {
           </Box>
         </Grid>
         <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
-          <Copy matchesMd={matchesMd} />
+          <Container maxWidth="md">
+            <Paper
+              elevation={3}
+              sx={{
+                p: 4,
+                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                borderRadius: "16px",
+                border: "2px solid #FFD700",
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              <Typography
+                variant="h2"
+                gutterBottom
+                sx={{
+                  textAlign: "center",
+                  fontFamily: "'Press Start 2P', cursive",
+                }}
+              >
+                Contact Us
+              </Typography>
+              <Typography
+                variant="body1"
+                paragraph
+                sx={{ mb: 4, textAlign: "center", color: "#333" }}
+              >
+                Have a question about your adventure in <em>A Rift in Time</em>?
+                Curious about game mechanics or need assistance? We're here to
+                help! Fill out the form below, and our team will get back to you
+                as soon as possible.
+              </Typography>
+              <form onSubmit={handleSubmit}>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      label="Your Name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleFormChange}
+                      required
+                      variant="outlined"
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": { borderColor: "#4A0E4E" },
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      fullWidth
+                      label="Your Email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                      required
+                      variant="outlined"
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": { borderColor: "#4A0E4E" },
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Your Message"
+                      name="message"
+                      multiline
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleFormChange}
+                      required
+                      variant="outlined"
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": { borderColor: "#4A0E4E" },
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      fullWidth
+                      sx={{
+                        fontFamily: "'Press Start 2P', cursive",
+                        fontSize: "0.8rem",
+                        padding: "12px",
+                      }}
+                    >
+                      Send
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+
+              <Typography sx={{ mt: 3 }}>
+                Your feedback and questions are valuable to us as we continue to
+                develop and improve A Rift in Time. Whether you're wondering
+                about gameplay features, encountering issues, or just want to
+                share your thoughts, we're eager to hear from you. Please
+                provide as much detail as possible in your message to help us
+                assist you effectively. We appreciate your interest in{" "}
+                <em>A Rift in Time</em> and look forward to connecting with you!
+              </Typography>
+
+              <Divider sx={{ my: 6 }} />
+
+              <Typography
+                variant="h2"
+                gutterBottom
+                sx={{
+                  color: "#4A0E4E",
+                  textAlign: "center",
+                  fontFamily: "'Press Start 2P', cursive",
+                  fontSize: "2rem",
+                  mb: 4,
+                }}
+              >
+                Frequently Asked Questions
+              </Typography>
+              <Box>
+                {faqData.map((faq, index) => (
+                  <Accordion
+                    key={index}
+                    expanded={expanded === `panel${index}`}
+                    onChange={handleChange(`panel${index}`)}
+                    sx={{
+                      backgroundColor: "rgba(255, 255, 255, 0.6)",
+                      "&:before": {
+                        display: "none",
+                      },
+                      boxShadow: "none",
+                      borderRadius: "8px !important",
+                      mb: 2,
+                    }}
+                  >
+                    <AccordionSummary
+                      expandIcon={<ExpandMore sx={{ color: "#4A0E4E" }} />}
+                      sx={{
+                        backgroundColor: "rgba(74, 14, 78, 0.1)",
+                        borderRadius: "8px",
+                        "&:hover": {
+                          backgroundColor: "rgba(74, 14, 78, 0.2)",
+                        },
+                      }}
+                    >
+                      <Typography sx={{ fontWeight: "bold", color: "#4A0E4E" }}>
+                        {faq.question}
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography sx={{ color: "#333" }}>
+                        {faq.answer}
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </Box>
+            </Paper>
+          </Container>
         </Grid>
       </Grid>
     </GameBackgroundGroundContainer>
   );
 };
 
-const Copy = () => {
-  return (
-    <div style={{ color: "black" }}>
-      <Box my={4}>
-        <Typography variant="h2" gutterBottom>
-          Welcome to the enchanting world of "A Rift In Time!"
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Step into a mesmerizing 2D universe where adventure and imagination
-          intertwine. Brought to life with vibrant pixel art and rich
-          storytelling, "A Rift In Time" offers an unforgettable journey through
-          time and space.
-        </Typography>
-      </Box>
-
-      <Box my={4}>
-        <Typography variant="h4" gutterBottom>
-          Embark on Your Epic Quest
-        </Typography>
-        <Typography variant="body1" paragraph>
-          In this top-down RPG sandbox, you play as a fearless hero navigating a
-          dynamic world filled with secrets, treasures, and mysteries waiting to
-          be uncovered. Whether you're exploring ancient ruins, dashing through
-          lush forests, or navigating bustling villages, every corner of this
-          expansive realm holds wonders and challenges.
-        </Typography>
-      </Box>
-
-      <Box my={4}>
-        <Typography variant="h4" gutterBottom>
-          Master the Art of Time and Space
-        </Typography>
-        <Typography variant="body1" paragraph>
-          At the core of "A Rift In Time" lies the unique ability to manipulate
-          the fabric of time. Revisit previous moments in your adventure to be
-          "in two places at the same time," enabling you to solve complex
-          puzzles, outsmart cunning foes, and confront formidable bosses. Your
-          past actions are recorded, allowing for strategic planning and
-          creative gameplay.
-        </Typography>
-      </Box>
-
-      <Box my={4}>
-        <Typography variant="h4" gutterBottom>
-          Teleport to Diverse Realms
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Beyond time manipulation, traverse between stunning realms, each with
-          its own distinct aesthetics, characters, and challenges. From mystical
-          forests to fiery mountains, every realm is meticulously crafted to
-          enrich your journey and test your skills.
-        </Typography>
-      </Box>
-
-      <Box my={4}>
-        <Typography variant="h4" gutterBottom>
-          Build, Craft, and Thrive
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Harness your creativity by collecting resources, crafting tools, and
-          constructing your own sanctuary amidst the wilderness. From humble
-          beginnings, build a thriving abode that reflects your style and
-          ingenuity. The freedom to shape your environment is boundless, limited
-          only by your imagination.
-        </Typography>
-      </Box>
-
-      <Box my={4}>
-        <Typography variant="h4" gutterBottom>
-          Day and Night Cycle
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Experience the immersive day and night cycles that add depth and
-          strategy to your adventure. By day, gather materials, explore new
-          territories, and strengthen your defenses. As night falls, brace
-          yourself against the myriad of monsters lurking in the dark. To
-          survive these nocturnal threats, you'll need to craft powerful
-          weapons, build sturdy fortifications, and devise ingenious tactics.
-          Only those who can master the balance between daylight preparation and
-          nighttime defense will thrive.
-        </Typography>
-      </Box>
-
-      <Box my={4}>
-        <Typography variant="h4" gutterBottom>
-          Forge Bonds and Create Memories
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Meet a diverse cast of characters, each with their own stories and
-          personalities. Forge lasting friendships, engage in heartwarming
-          activities, and become an integral part of a community that evolves
-          with your decisions. The bonds you create will leave a lasting impact
-          on your journey and the world around you.
-        </Typography>
-      </Box>
-
-      <Box my={4}>
-        <Typography variant="h4" gutterBottom>
-          Endless Exploration and Discovery
-        </Typography>
-        <Typography variant="body1" paragraph>
-          The world of "A Rift In Time" is vast and brimming with opportunities
-          for exploration. Unearth hidden dungeons, solve intricate puzzles, and
-          battle formidable foes. With countless quests and side adventures,
-          there's always something new to discover and experience.
-        </Typography>
-      </Box>
-
-      <Box my={4}>
-        <Typography variant="h4" gutterBottom>
-          Be Part of the Journey
-        </Typography>
-        <Typography variant="body1" paragraph>
-          This is an alpha build, and we invite you to be a pivotal part of
-          shaping the course of our development. Your feedback, insights, and
-          suggestions will help us refine and enhance the game, ensuring a
-          magical experience for all.
-        </Typography>
-      </Box>
-    </div>
-  );
-};
-
 export default ContactPage;
+
+const faqData = [
+  {
+    question: "What is 'A Rift in Time'?",
+    answer:
+      "'A Rift in Time' is an enchanting 2D RPG sandbox game where you embark on an epic quest through time and space. You'll explore diverse realms, solve puzzles, and battle foes while mastering the ability to manipulate time itself.",
+  },
+  {
+    question: "How does the time manipulation mechanic work?",
+    answer:
+      "The time manipulation mechanic allows you to revisit previous moments in your adventure. This enables you to be 'in two places at once', solving complex puzzles and overcoming challenging obstacles. Your past actions are recorded, allowing for strategic planning and creative gameplay.",
+  },
+  {
+    question: "Can I build and craft in the game?",
+    answer:
+      "Absolutely! 'A Rift in Time' features a robust crafting and building system. You can collect resources, craft tools, and construct your own sanctuary. From humble beginnings, you can build a thriving abode that reflects your style and ingenuity.",
+  },
+  {
+    question: "Tell me about the day and night cycle.",
+    answer:
+      "The game features an immersive day and night cycle that adds depth to your adventure. During the day, you can gather materials and explore. At night, you'll need to defend against monsters, using the fortifications and weapons you've crafted.",
+  },
+  {
+    question: "Is there a storyline to follow?",
+    answer:
+      "Yes! While 'A Rift in Time' offers sandbox elements, it also features a rich storyline filled with diverse characters, each with their own stories and personalities. Your decisions will impact the evolving narrative and the world around you.",
+  },
+  {
+    question: "How often is the game updated?",
+    answer:
+      "As an alpha build, we're constantly working on improvements and new features. We release updates regularly based on player feedback and our development roadmap. Stay tuned to our official channels for the latest update information!",
+  },
+  {
+    question: "How can I provide feedback or report bugs?",
+    answer:
+      "We greatly value player feedback! You can provide feedback or report bugs through our official forum, our Discord channel, or by using the contact form on our website. Your insights help us refine and enhance the game.",
+  },
+];

@@ -35,16 +35,8 @@ function ResponsiveAppBar() {
       sx={{ backgroundColor: "rgba(0, 0, 0, 0.85)", boxShadow: "none" }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
-          >
-            LOGO
-          </Typography>
-
+        <Toolbar disableGutters sx={{ justifyContent: "center" }}>
+          {/* Mobile menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -60,7 +52,7 @@ function ResponsiveAppBar() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: "top",
+                vertical: "bottom",
                 horizontal: "left",
               }}
               keepMounted
@@ -81,15 +73,33 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
+
+          {/* Logo for mobile */}
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              justifyContent: "center",
+            }}
           >
-            LOGO
+            A RIFT IN TIME
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+
+          {/* Logo for desktop */}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+          >
+            A RIFT IN TIME
+          </Typography>
+
+          {/* Desktop menu */}
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Link key={page.name} href={page.link} passHref>
                 <Button
