@@ -52,7 +52,7 @@ const ContactPage = () => {
 
 const Copy = () => {
   return (
-    <>
+    <div style={{ color: "black" }}>
       <Box my={4}>
         <Typography variant="h2" gutterBottom>
           Welcome to the enchanting world of "A Rift In Time!"
@@ -169,7 +169,7 @@ const Copy = () => {
           magical experience for all.
         </Typography>
       </Box>
-    </>
+    </div>
   );
 };
 

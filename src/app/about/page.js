@@ -21,8 +21,8 @@ const AboutPage = () => {
   const [color, setColor] = useState("#ffffff");
 
   const interpolateColor = (startHex, endHex, factor) => {
-    // Apply a non-linear easing function to the factor
-    const easedFactor = Math.pow(factor, 3); // Cubic easing
+    // Apply a more aggressive non-linear easing function
+    const easedFactor = Math.pow(factor, 4); // Quartic easing
 
     const startRgb = parseInt(startHex.slice(1), 16);
     const endRgb = parseInt(endHex.slice(1), 16);
@@ -49,23 +49,21 @@ const AboutPage = () => {
     const scrolled = window.scrollY;
     const maxScroll =
       document.documentElement.scrollHeight - window.innerHeight;
-    const halfwayPoint = (2 * maxScroll) / 5;
 
-    if (scrolled > halfwayPoint) {
-      const transitionStart = halfwayPoint;
-      const transitionEnd = maxScroll;
-      const factor =
-        (scrolled - transitionStart) / (transitionEnd - transitionStart);
+    // Start the transition earlier and complete it faster
+    const transitionStart = 0.5; // Start at 10% of scroll
+    const transitionEnd = 0.6; // End at 40% of scroll
 
-      const newTransparency = 0.9 - factor * 0.9;
-      const newColor = interpolateColor("#ffffff", "#000000", factor);
+    let factor =
+      (scrolled / maxScroll - transitionStart) /
+      (transitionEnd - transitionStart);
+    factor = Math.max(0, Math.min(1, factor)); // Clamp factor between 0 and 1
 
-      setTransparency(newTransparency);
-      setColor(newColor);
-    } else {
-      setTransparency(0.9);
-      setColor("#ffffff");
-    }
+    const newTransparency = 0.9 - factor * 0.9;
+    const newColor = interpolateColor("#ffffff", "#000000", factor);
+
+    setTransparency(newTransparency);
+    setColor(newColor);
   }, []);
 
   useEffect(() => {

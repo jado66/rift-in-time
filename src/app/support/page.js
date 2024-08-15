@@ -66,7 +66,7 @@ const Copy = () => {
     // Handle pre-buy logic here
   };
   return (
-    <>
+    <div style={{ color: "black" }}>
       <Box my={4}>
         <Typography variant="h2" gutterBottom>
           Support "A Rift In Time"
@@ -256,6 +256,6 @@ const Copy = () => {
           </ListItem>
         </List>
       </Box>
-    </>
+    </div>
   );
 };
