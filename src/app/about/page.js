@@ -17,8 +17,8 @@ const AboutPage = () => {
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
   const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 });
-  const [transparency, setTransparency] = useState(0.9);
-  const [color, setColor] = useState("#ffffff");
+  const [transparency, setTransparency] = useState(0);
+  const [color, setColor] = useState("#000000");
   const [characterType, setCharacterType] = useState("trans");
 
   const interpolateColor = (startHex, endHex, factor) => {
