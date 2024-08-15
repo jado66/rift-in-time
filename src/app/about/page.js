@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -18,6 +18,56 @@ const AboutPage = () => {
 
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
   const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 });
+  const [transparency, setTransparency] = useState(0.9);
+  const [color, setColor] = useState("#ffffff");
+
+  const interpolateColor = (startHex, endHex, factor) => {
+    const startRgb = parseInt(startHex.slice(1), 16);
+    const endRgb = parseInt(endHex.slice(1), 16);
+
+    const resultRgb =
+      (Math.round(
+        (1 - factor) * ((startRgb >> 16) & 0xff) +
+          factor * ((endRgb >> 16) & 0xff)
+      ) <<
+        16) |
+      (Math.round(
+        (1 - factor) * ((startRgb >> 8) & 0xff) +
+          factor * ((endRgb >> 8) & 0xff)
+      ) <<
+        8) |
+      Math.round((1 - factor) * (startRgb & 0xff) + factor * (endRgb & 0xff));
+
+    return `#${(resultRgb | (1 << 24)).toString(16).slice(1).toUpperCase()}`;
+  };
+
+  const handleScroll = useCallback(() => {
+    const scrolled = window.scrollY;
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const halfwayPoint = maxScroll / 2;
+
+    if (scrolled > halfwayPoint) {
+      const transitionStart = halfwayPoint;
+      const transitionEnd = maxScroll;
+      const factor =
+        (scrolled - transitionStart) / (transitionEnd - transitionStart);
+
+      const newTransparency = 0.9 - factor * 0.9;
+      const newColor = interpolateColor("#ffffff", "#808080", factor);
+
+      setTransparency(newTransparency);
+      setColor(newColor);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [handleScroll]);
 
   const handlePositionChange = useCallback((position) => {
     setLightPosition(position);
@@ -47,7 +97,7 @@ const AboutPage = () => {
         </Grid>
         <Grid item xs={11}>
           <Box sx={{ position: "relative", zIndex: 11 }}>
-            <Copy matchesMd={matchesMd} />
+            <Copy matchesMd={matchesMd} color={color} />
           </Box>
         </Grid>
       </Grid>
@@ -56,6 +106,7 @@ const AboutPage = () => {
         style={{
           "--light-x": `${lightPosition.x}px`,
           "--light-y": `${lightPosition.y}px`,
+          "--transparency": `${transparency}`,
           zIndex: 9,
         }}
       />
