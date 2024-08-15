@@ -6,21 +6,57 @@ import {
   Container,
   Grid,
   Paper,
-  TextField,
-  Button,
+  useTheme,
+  useMediaQuery,
   List,
   ListItem,
   ListItemText,
-  Link,
+  TextField,
+  Button,
 } from "@mui/material";
 import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContainer";
+import WalkingCharacter from "@/components/WalkingCharacter";
+import Link from "next/link";
 
-const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAASUExURTq+QWrdSzq7Pjq6PjKOQTq5PuZdsVoAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjPYyAWMKLRyAJMSsKGDAwsDEqKxsIgGiQgApJTUjR0BisCCghDBYyhAs5gGSUVE4gAEUAAzQVYAJNSqCjEHggNFBCFCKiIoglAaaCAqytEAEITCSgNjyHhfQYGAJgEECJ5G9oTAAAAAElFTkSuQmCC')`;
+const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAECAIAAADJUWIXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAXSURBVBhXY/z3/z8DEmCC0jCAn8/AAAC6RwME3Di+XgAAAABJRU5ErkJggg==')`;
 
-const waterToGrassSrc =
-  'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURR58uP///zq+QTKOQWrdS3j7ZvQAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABXSURBVCjP5ZDBDYAwDAPpCmUDkwlSJnC8/0wIHkjuowyAfznFtpLtVcOjBdhn0GPa6AJolgIVniHJW84qB8fIZe09hgOizBIkDSiR1jI8tOXX+T/8B3ABNS8gG2/1+LQAAAAASUVORK5CYII=")';
+const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURcLg+d/3+v7///////X//28qt+MAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAnSURBVCjPY4ADRiVlYyDAIyBEFQFnArYwqtDEWkKeI0Ng+IeHsTEAagEj2UKfSm8AAAAASUVORK5CYII=')`;
 
 const Support = () => {
+  const theme = useTheme();
+
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+
+  return (
+    <GameBackgroundGroundContainer
+      bgColor="#C2E0F9"
+      mainSrc={mainBackgroundSrc}
+      borderSrc={borderSrc}
+    >
+      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
+        <Grid item xs={1} sx={{ p: "0px !important" }}>
+          {/* Walking character */}
+          <Box
+            sx={{
+              p: 0,
+              position: "fixed",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          >
+            <WalkingCharacter type="ice" />
+          </Box>
+        </Grid>
+        <Grid item xs={11}>
+          <Copy matchesMd={matchesMd} />
+        </Grid>
+      </Grid>
+    </GameBackgroundGroundContainer>
+  );
+};
+export default Support;
+
+const Copy = () => {
   const handleNewsletterSubscription = (event) => {
     event.preventDefault();
     // Handle newsletter subscription logic here
@@ -29,13 +65,8 @@ const Support = () => {
   const handlePreBuy = () => {
     // Handle pre-buy logic here
   };
-
   return (
-    <GameBackgroundGroundContainer
-      bgColor="#1E7CB8"
-      mainSrc={grassBackgroundSrc}
-      borderSrc={waterToGrassSrc}
-    >
+    <>
       <Box my={4}>
         <Typography variant="h2" gutterBottom>
           Support "A Rift In Time"
@@ -107,8 +138,8 @@ const Support = () => {
         </Typography>
         <Typography variant="body1" paragraph>
           Secure your copy of <strong>"A Rift In Time"</strong> now by
-          pre-buying at an exclusive price of <strong>$10</strong>! Here’s what
-          you’ll get:
+          pre-buying at an exclusive price of <strong>$10</strong>! Here's what
+          you'll get:
         </Typography>
 
         <List>
@@ -225,8 +256,6 @@ const Support = () => {
           </ListItem>
         </List>
       </Box>
-    </GameBackgroundGroundContainer>
+    </>
   );
 };
-
-export default Support;

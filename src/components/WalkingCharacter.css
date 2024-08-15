@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  margin-left: -12px;
 }
 
 .character {
@@ -13,7 +14,7 @@
   width: 48px;
   height: 69px;
   overflow: hidden;
-  z-index: 1000;
+  z-index: 9;
 }
 
 .character img {
@@ -30,6 +31,24 @@
 .walkingDown img,
 .walkingUp img {
   animation: walkCycle 0.4s steps(4) infinite;
+}
+
+.darkness-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle 150px at var(--light-x) var(--light-y),
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  pointer-events: none;
+  z-index: 9;
+}
+.character-container {
+  z-index: 9;
 }
 
 .idle img {
@@ -49,6 +68,6 @@
   /* MD breakpoint in Material-UI */
   .character-container {
     justify-content: flex-start;
-    padding-left: 10px; /* Adjust this value to position the character within the column */
+    margin-left: 10px; /* Adjust this value to position the character within the column */
   }
 }

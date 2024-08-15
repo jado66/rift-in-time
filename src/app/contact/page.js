@@ -1,17 +1,58 @@
+"use client";
 import React from "react";
-import { Box, Typography, Container, Grid, Paper } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Container,
+  Grid,
+  Paper,
+  useTheme,
+} from "@mui/material";
 import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContainer";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import SignHeader from "@/components/SignHeader";
+import WalkingCharacter from "@/components/WalkingCharacter"; // SimpleCharacter,
+import { ScrollYProvider, useScrollY } from "@/components/ScrollYContext";
 
-const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAECAIAAADJUWIXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAXSURBVBhXY/z3/z8DEmCC0jCAn8/AAAC6RwME3Di+XgAAAABJRU5ErkJggg==')`;
+const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURe7Xjvzmm2xdNW4AAAAJcEhZcwAADsIAAA7CARUoSoAAAABiSURBVCjP7ZCBDQAhDALrBmX/Zb9QMA7xifEqVkSrgDpAX87cVpe9MkIJ3A9HYjFLcwR64ZI2rC7ZqCtDnZypQ/U1M4RKdtZB5EllMCvjKRnKDsWkdgj1SPixSvr/x/MfqA/DHhWJyZpSdgAAAABJRU5ErkJggg==')`;
 
-const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURcLg+d/3+v7///////X//28qt+MAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAnSURBVCjPY4ADRiVlYyDAIyBEFQFnArYwqtDEWkKeI0Ng+IeHsTEAagEj2UKfSm8AAAAASUVORK5CYII=')`;
+const waterToGrassSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURVGv66WJWvzmm+7Xjo3h/ypV5gwAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjP7dDBFYAgDANQWUE2SDcgE7D/UiYXSZ1Bbn5Mm8f1ngEuoBKKBA7cupY0gFIHpqESPBOMCC0BW1s+ALYeXrsSpr5WFpv0H1nMIxsowGy6PYGxdpQC2eN/DwB8AEkEISXmclWYAAAAAElFTkSuQmCC')`;
 const ContactPage = () => {
+  const theme = useTheme();
+
+  const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <GameBackgroundGroundContainer
-      bgColor="#C2E0F9"
-      mainSrc={mainBackgroundSrc}
-      borderSrc={borderSrc}
+      bgColor="#51AFEB"
+      mainSrc={grassBackgroundSrc}
+      borderSrc={waterToGrassSrc}
     >
+      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
+        <Grid item xs={1} sx={{ p: "0px !important" }}>
+          {/* Walking character */}
+          <Box
+            sx={{
+              p: 0,
+              position: "fixed",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          >
+            <WalkingCharacter />
+          </Box>
+        </Grid>
+        <Grid item xs={11}>
+          <Copy matchesMd={matchesMd} />
+        </Grid>
+      </Grid>
+    </GameBackgroundGroundContainer>
+  );
+};
+
+const Copy = () => {
+  return (
+    <>
       <Box my={4}>
         <Typography variant="h2" gutterBottom>
           Welcome to the enchanting world of "A Rift In Time!"
@@ -128,7 +169,7 @@ const ContactPage = () => {
           magical experience for all.
         </Typography>
       </Box>
-    </GameBackgroundGroundContainer>
+    </>
   );
 };
 

@@ -16,9 +16,56 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="vt323-regular">
-        <ResponsiveAppBar />
-        {children}
+      <body className={`vt323-regular ${vtT323.className}`}>
+        <div
+          style={{
+            minHeight: "100vh",
+            paddingTop: "64px", // Adjust this value based on your header height
+            paddingBottom: "50px", // Adjust this value based on your footer height
+            overflowY: "hidden",
+          }}
+        >
+          <header
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1000,
+            }}
+          >
+            <ResponsiveAppBar />
+          </header>
+          <main style={{ marginTop: "-4em", marginBottom: "-4em" }}>
+            <div className="main-content">{children}</div>
+          </main>
+          <footer
+            className="footer"
+            style={{
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              padding: 0,
+              right: 0,
+              zIndex: 1000,
+            }}
+          >
+            <div
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 0%,   rgba(0, 0, 0, 0.97) 80%)",
+                height: "350px",
+              }}
+            ></div>
+            <div
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.97)",
+                height: "25px",
+              }}
+            ></div>
+            {/* Footer content */}
+          </footer>
+        </div>
       </body>
     </html>
   );

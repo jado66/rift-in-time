@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   Box,
   Typography,
@@ -17,16 +17,20 @@ const AboutPage = () => {
   const theme = useTheme();
 
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+  const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 });
+
+  const handlePositionChange = useCallback((position) => {
+    setLightPosition(position);
+  }, []);
 
   return (
     <GameBackgroundGroundContainer
-      bgColor="#1E7CB8"
-      mainSrc={grassBackgroundSrc}
-      borderSrc={waterToGrassSrc}
+      bgColor="#000"
+      mainSrc={mainSrc}
+      borderSrc={borderSrc}
     >
-      <Grid container spacing={2} sx={{ pl: 0 }}>
+      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 25 }}>
         <Grid item xs={1} sx={{ p: "0px !important" }}>
-          {/* Walking character */}
           <Box
             sx={{
               p: 0,
@@ -35,37 +39,44 @@ const AboutPage = () => {
               transform: "translateY(-50%)",
             }}
           >
-            <WalkingCharacter />
+            <WalkingCharacter
+              type="dark"
+              onPositionChange={handlePositionChange}
+            />
           </Box>
         </Grid>
         <Grid item xs={11}>
-          {/* Copy content */}
-          <Copy matchesMd={matchesMd} />
+          <Box sx={{ position: "relative", zIndex: 11 }}>
+            <Copy matchesMd={matchesMd} />
+          </Box>
         </Grid>
       </Grid>
-
-      <Copy matchesMd={matchesMd} />
-      {/* <SimpleCharacter /> */}
+      <div
+        className="darkness-overlay"
+        style={{
+          "--light-x": `${lightPosition.x}px`,
+          "--light-y": `${lightPosition.y}px`,
+          zIndex: 9,
+        }}
+      />
     </GameBackgroundGroundContainer>
   );
 };
 
 export default AboutPage;
 
-const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAASUExURTq+QWrdSzq7Pjq6PjKOQTq5PuZdsVoAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjPYyAWMKLRyAJMSsKGDAwsDEqKxsIgGiQgApJTUjR0BisCCghDBYyhAs5gGSUVE4gAEUAAzQVYAJNSqCjEHggNFBCFCKiIoglAaaCAqytEAEITCSgNjyHhfQYGAJgEECJ5G9oTAAAAAElFTkSuQmCC')`;
-
-const waterToGrassSrc =
-  'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURR58uP///zq+QTKOQWrdS3j7ZvQAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABXSURBVCjP5ZDBDYAwDAPpCmUDkwlSJnC8/0wIHkjuowyAfznFtpLtVcOjBdhn0GPa6AJolgIVniHJW84qB8fIZe09hgOizBIkDSiR1jI8tOXX+T/8B3ABNS8gG2/1+LQAAAAASUVORK5CYII=")';
+const mainSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURXlYT1Y6P7mgiOEAAAAJcEhZcwAADsIAAA7CARUoSoAAAABYSURBVCjP7dDREcAgCAPQZIOw/7IFJNTrDP3AJ8qBJ0BQotbcfEK1vkKRUfk4lSELBMTKbJXM9VE4s2zXdrsVbm3VwXWacfX5bdQb1oQ10brL+v/H/R/CA1aACAm7J0KMAAAAAElFTkSuQmCC')`;
+const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURQAAAFY6P5R4XHlYTzAsNBgbInsAAAAJcEhZcwAADsIAAA7CARUoSoAAAABqSURBVCjP7ZDBDYAwDANbqQsEbxBYIPIEIPafCfdDE2Ygz1NjX9re2cgAYoHuLsQFhoGaBdodRAEggpYyyD1KhrtK8sppVjPGLEECHdKI3BJ6kFeu4xM6zqrebHoxi0krXysHK7X/fxiJBwgUHpPbiRf8AAAAAElFTkSuQmCC')`;
 
 const Copy = ({ matchesMd }) => {
   return (
-    <>
-      <Box my={4}>
+    <div style={{ color: "white", zIndex: 10 }}>
+      <Box my={5}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
             Welcome to the enchanting world of <br />
             "A Rift In Time!"
-          </SignHeader>
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -77,7 +88,9 @@ const Copy = ({ matchesMd }) => {
       </Box>
       <Box mb={4}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader>Embark on Your Epic Quest</SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
+            Embark on Your Epic Quest
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -90,7 +103,9 @@ const Copy = ({ matchesMd }) => {
       </Box>
       <Box my={4}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader>Master the Art of Time and Space</SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
+            Master the Art of Time and Space
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -104,7 +119,10 @@ const Copy = ({ matchesMd }) => {
       </Box>
       <Box my={4}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader> Teleport to Diverse Realms</SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
+            {" "}
+            Teleport to Diverse Realms
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -116,7 +134,10 @@ const Copy = ({ matchesMd }) => {
       </Box>
       <Box my={4}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader> Build, Craft, and Thrive</SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
+            {" "}
+            Build, Craft, and Thrive
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -129,7 +150,10 @@ const Copy = ({ matchesMd }) => {
       </Box>
       <Box my={4}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader> Day and Night Cycle</SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
+            {" "}
+            Day and Night Cycle
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -145,7 +169,9 @@ const Copy = ({ matchesMd }) => {
       </Box>
       <Box my={4}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader>Forge Bonds and Create Memories</SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
+            Forge Bonds and Create Memories
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -158,7 +184,10 @@ const Copy = ({ matchesMd }) => {
       </Box>
       <Box my={4}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader> Endless Exploration and Discovery</SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
+            {" "}
+            Endless Exploration and Discovery
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -170,7 +199,10 @@ const Copy = ({ matchesMd }) => {
       </Box>
       <Box my={4}>
         <Box sx={{ textAlign: "center" }}>
-          <SignHeader> Be Part of the Journey</SignHeader>
+          <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
+            {" "}
+            Be Part of the Journey
+          </Typography>
         </Box>
 
         <Typography variant={matchesMd ? "body1" : "body2"} paragraph>
@@ -180,6 +212,6 @@ const Copy = ({ matchesMd }) => {
           magical experience for all.
         </Typography>
       </Box>
-    </>
+    </div>
   );
 };
