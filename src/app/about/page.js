@@ -19,7 +19,7 @@ const AboutPage = () => {
   const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 });
   const [transparency, setTransparency] = useState(0);
   const [color, setColor] = useState("#000000");
-  const [characterType, setCharacterType] = useState("trans");
+  const [characterType, setCharacterType] = useState("Trans");
 
   const interpolateColor = (startHex, endHex, factor) => {
     // Apply a more aggressive non-linear easing function
@@ -64,9 +64,9 @@ const AboutPage = () => {
     const newColor = interpolateColor("#000000", "#ffffff", factor);
 
     if (factor > 0) {
-      setCharacterType("torch");
+      setCharacterType("Torch");
     } else {
-      setCharacterType("trans");
+      setCharacterType("Trans");
     }
 
     setTransparency(newTransparency);

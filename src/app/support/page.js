@@ -44,7 +44,7 @@ const Support = () => {
               transform: "translateY(-50%)",
             }}
           >
-            <WalkingCharacter type="ice" />
+            <WalkingCharacter type="Ice" />
           </Box>
         </Grid>
         <Grid item xs={11}>

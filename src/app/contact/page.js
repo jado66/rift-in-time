@@ -41,7 +41,7 @@ const ContactPage = () => {
               transform: "translateY(-50%)",
             }}
           >
-            <WalkingCharacter type="sand" />
+            <WalkingCharacter type="Sand" />
           </Box>
         </Grid>
         <Grid item xs={11}>

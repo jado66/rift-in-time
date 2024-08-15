@@ -43,7 +43,7 @@ const HomePage = () => {
             }}
           >
             <WalkingCharacter
-              type="torch"
+              type="Torch"
               onPositionChange={handlePositionChange}
             />
           </Box>
