@@ -14,18 +14,19 @@ import SignHeader from "@/components/SignHeader";
 import WalkingCharacter from "@/components/WalkingCharacter"; // SimpleCharacter,
 import { ScrollYProvider, useScrollY } from "@/components/ScrollYContext";
 
-const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAASUExURTq+QWrdSzq7Pjq6PjKOQTq5PuZdsVoAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjPYyAWMKLRyAJMSsKGDAwsDEqKxsIgGiQgApJTUjR0BisCCghDBYyhAs5gGSUVE4gAEUAAzQVYAJNSqCjEHggNFBCFCKiIoglAaaCAqytEAEITCSgNjyHhfQYGAJgEECJ5G9oTAAAAAElFTkSuQmCC')`;
-const waterToGrassSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURR58uP///zq+QTKOQWrdS3j7ZvQAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABXSURBVCjP5ZDBDYAwDAPpCmUDkwlSJnC8/0wIHkjuowyAfznFtpLtVcOjBdhn0GPa6AJolgIVniHJW84qB8fIZe09hgOizBIkDSiR1jI8tOXX+T/8B3ABNS8gG2/1+LQAAAAASUVORK5CYII=')`;
 const HomePage = () => {
   const theme = useTheme();
 
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
 
+  const mainSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURXlYT1Y6P7mgiOEAAAAJcEhZcwAADsIAAA7CARUoSoAAAABYSURBVCjP7dDREcAgCAPQZIOw/7IFJNTrDP3AJ8qBJ0BQotbcfEK1vkKRUfk4lSELBMTKbJXM9VE4s2zXdrsVbm3VwXWacfX5bdQb1oQ10brL+v/H/R/CA1aACAm7J0KMAAAAAElFTkSuQmCC')`;
+  const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURQAAAFY6P5R4XHlYTzAsNBgbInsAAAAJcEhZcwAADsIAAA7CARUoSoAAAABqSURBVCjP7ZDBDYAwDANbqQsEbxBYIPIEIPafCfdDE2Ygz1NjX9re2cgAYoHuLsQFhoGaBdodRAEggpYyyD1KhrtK8sppVjPGLEECHdKI3BJ6kFeu4xM6zqrebHoxi0krXysHK7X/fxiJBwgUHpPbiRf8AAAAAElFTkSuQmCC')`;
+
   return (
     <GameBackgroundGroundContainer
-      bgColor="#1E7CB8"
-      mainSrc={grassBackgroundSrc}
-      borderSrc={waterToGrassSrc}
+      bgColor="#000"
+      mainSrc={mainSrc}
+      borderSrc={borderSrc}
     >
       <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
         <Grid item xs={1} sx={{ p: "0px !important" }}>

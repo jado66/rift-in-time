@@ -15,28 +15,32 @@ import WalkingCharacter from "@/components/WalkingCharacter"; // SimpleCharacter
 
 const AboutPage = () => {
   const theme = useTheme();
-
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
   const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 });
   const [transparency, setTransparency] = useState(0.9);
   const [color, setColor] = useState("#ffffff");
 
   const interpolateColor = (startHex, endHex, factor) => {
+    // Apply a non-linear easing function to the factor
+    const easedFactor = Math.pow(factor, 3); // Cubic easing
+
     const startRgb = parseInt(startHex.slice(1), 16);
     const endRgb = parseInt(endHex.slice(1), 16);
 
     const resultRgb =
       (Math.round(
-        (1 - factor) * ((startRgb >> 16) & 0xff) +
-          factor * ((endRgb >> 16) & 0xff)
+        (1 - easedFactor) * ((startRgb >> 16) & 0xff) +
+          easedFactor * ((endRgb >> 16) & 0xff)
       ) <<
         16) |
       (Math.round(
-        (1 - factor) * ((startRgb >> 8) & 0xff) +
-          factor * ((endRgb >> 8) & 0xff)
+        (1 - easedFactor) * ((startRgb >> 8) & 0xff) +
+          easedFactor * ((endRgb >> 8) & 0xff)
       ) <<
         8) |
-      Math.round((1 - factor) * (startRgb & 0xff) + factor * (endRgb & 0xff));
+      Math.round(
+        (1 - easedFactor) * (startRgb & 0xff) + easedFactor * (endRgb & 0xff)
+      );
 
     return `#${(resultRgb | (1 << 24)).toString(16).slice(1).toUpperCase()}`;
   };
@@ -45,7 +49,7 @@ const AboutPage = () => {
     const scrolled = window.scrollY;
     const maxScroll =
       document.documentElement.scrollHeight - window.innerHeight;
-    const halfwayPoint = maxScroll / 2;
+    const halfwayPoint = (2 * maxScroll) / 5;
 
     if (scrolled > halfwayPoint) {
       const transitionStart = halfwayPoint;
@@ -54,10 +58,13 @@ const AboutPage = () => {
         (scrolled - transitionStart) / (transitionEnd - transitionStart);
 
       const newTransparency = 0.9 - factor * 0.9;
-      const newColor = interpolateColor("#ffffff", "#808080", factor);
+      const newColor = interpolateColor("#ffffff", "#000000", factor);
 
       setTransparency(newTransparency);
       setColor(newColor);
+    } else {
+      setTransparency(0.9);
+      setColor("#ffffff");
     }
   }, []);
 
@@ -75,9 +82,9 @@ const AboutPage = () => {
 
   return (
     <GameBackgroundGroundContainer
-      bgColor="#000"
-      mainSrc={mainSrc}
-      borderSrc={borderSrc}
+      mainSrc={grassBackgroundSrc}
+      borderSrc={waterToGrassSrc}
+      applyMainToEdges
     >
       <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 25 }}>
         <Grid item xs={1} sx={{ p: "0px !important" }}>
@@ -116,12 +123,9 @@ const AboutPage = () => {
 
 export default AboutPage;
 
-const mainSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURXlYT1Y6P7mgiOEAAAAJcEhZcwAADsIAAA7CARUoSoAAAABYSURBVCjP7dDREcAgCAPQZIOw/7IFJNTrDP3AJ8qBJ0BQotbcfEK1vkKRUfk4lSELBMTKbJXM9VE4s2zXdrsVbm3VwXWacfX5bdQb1oQ10brL+v/H/R/CA1aACAm7J0KMAAAAAElFTkSuQmCC')`;
-const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURQAAAFY6P5R4XHlYTzAsNBgbInsAAAAJcEhZcwAADsIAAA7CARUoSoAAAABqSURBVCjP7ZDBDYAwDANbqQsEbxBYIPIEIPafCfdDE2Ygz1NjX9re2cgAYoHuLsQFhoGaBdodRAEggpYyyD1KhrtK8sppVjPGLEECHdKI3BJ6kFeu4xM6zqrebHoxi0krXysHK7X/fxiJBwgUHpPbiRf8AAAAAElFTkSuQmCC')`;
-
-const Copy = ({ matchesMd }) => {
+const Copy = ({ matchesMd, color }) => {
   return (
-    <div style={{ color: "white", zIndex: 10 }}>
+    <div style={{ color: color, zIndex: 10 }}>
       <Box my={5}>
         <Box sx={{ textAlign: "center" }}>
           <Typography variant={matchesMd ? "h3" : "h4"} gutterBottom>
@@ -266,3 +270,6 @@ const Copy = ({ matchesMd }) => {
     </div>
   );
 };
+
+const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAASUExURTq+QWrdSzq7Pjq6PjKOQTq5PuZdsVoAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjPYyAWMKLRyAJMSsKGDAwsDEqKxsIgGiQgApJTUjR0BisCCghDBYyhAs5gGSUVE4gAEUAAzQVYAJNSqCjEHggNFBCFCKiIoglAaaCAqytEAEITCSgNjyHhfQYGAJgEECJ5G9oTAAAAAElFTkSuQmCC')`;
+const waterToGrassSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC0UExURTq+QS1bQymXUC7KXFDrbCt9SisvNTaQTXyNSDfCWf8oKGrdS2yZTLhMNT51Rjq6PqmGSe85LlV/RzKOQTq7Pju/WFbjaWrNYSmWT5GhUlreZ1jhaDpXQXpdPTh3Ry1+NS17NC6UT3+LR2fRYlx8RvorKbN8RS6TTn9qP0WISjguNHltQHxHOD+LSzORTkOJS61mPDyMTDKSTpFgPF5oQV+jT/UvKrpLNDDIW22ZTEOJSjZYQeH3AmAAAAAJcEhZcwAADsIAAA7CARUoSoAAAAGiSURBVDhPXZPpQsIwEISbkwIqaosKgnhfKN73+7+XM7sJje6PULpfZs9WMGOddxbmfDpD5PtsJhjrXa/uOzECpiRMsHhr60GtgGgFH4fJzwC0QmFjcwsSGRgR8CkHPbd3doOJTdu2w1FbDRnCezrduO7zd2//ICCJNQBCLjtfDyaSow1QyADd9Drr/XRyCCmPNzMQABoC9Kcu5FxCmFNCrQDEFDgqAFYhbiH0D3oHIBUqSdBpkUV6CDHGhbqRKyREAG4lpIiFAK0AwbJQACIBiwhQANIJ3MsjddbEeKwRBGjWncpJoo8dAEt1CMQTsboqYdwHXkUCqkCgWAhNgBVIFSenZzqLf/sgyrTzi0ukBNUsoftAQhh3dX0DAUqU+0ABrULAP0DDLui+iF8QmUUeN0fBjUTybKSIhNtuFjru5WDJTiqBEHep1QkY1/fLFT0EYNHMCGih3Iea91N4npjFWqDiMB8enyS0Jvn88lrOgvsABbigLxJv7x//gNCbr+AgwCQ+v77xYRWAdILiMg9NE9+mEGnc3T5MJ/y2evOfJFFVv+U0GK6r1y4iAAAAAElFTkSuQmCC')`;
