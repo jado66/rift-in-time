@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   Box,
   Typography,
@@ -16,9 +16,12 @@ import { ScrollYProvider, useScrollY } from "@/components/ScrollYContext";
 
 const HomePage = () => {
   const theme = useTheme();
+  const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 });
 
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
-
+  const handlePositionChange = useCallback((position) => {
+    setLightPosition(position);
+  }, []);
   const mainSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURXlYT1Y6P7mgiOEAAAAJcEhZcwAADsIAAA7CARUoSoAAAABYSURBVCjP7dDREcAgCAPQZIOw/7IFJNTrDP3AJ8qBJ0BQotbcfEK1vkKRUfk4lSELBMTKbJXM9VE4s2zXdrsVbm3VwXWacfX5bdQb1oQ10brL+v/H/R/CA1aACAm7J0KMAAAAAElFTkSuQmCC')`;
   const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURQAAAFY6P5R4XHlYTzAsNBgbInsAAAAJcEhZcwAADsIAAA7CARUoSoAAAABqSURBVCjP7ZDBDYAwDANbqQsEbxBYIPIEIPafCfdDE2Ygz1NjX9re2cgAYoHuLsQFhoGaBdodRAEggpYyyD1KhrtK8sppVjPGLEECHdKI3BJ6kFeu4xM6zqrebHoxi0krXysHK7X/fxiJBwgUHpPbiRf8AAAAAElFTkSuQmCC')`;
 
@@ -39,20 +42,34 @@ const HomePage = () => {
               transform: "translateY(-50%)",
             }}
           >
-            <WalkingCharacter />
+            <WalkingCharacter
+              type="torch"
+              onPositionChange={handlePositionChange}
+            />
           </Box>
         </Grid>
         <Grid item xs={11}>
-          <Copy matchesMd={matchesMd} />
+          <Box sx={{ position: "relative", zIndex: 11 }}>
+            <Copy matchesMd={matchesMd} color={"white"} />
+          </Box>
         </Grid>
       </Grid>
+      <div
+        className="darkness-overlay"
+        style={{
+          "--light-x": `${lightPosition.x}px`,
+          "--light-y": `${lightPosition.y}px`,
+          "--transparency": `.9`,
+          zIndex: 9,
+        }}
+      />
     </GameBackgroundGroundContainer>
   );
 };
 
 const Copy = () => {
   return (
-    <>
+    <div style={{ color: "white" }}>
       <Box my={4}>
         <Typography variant="h2" gutterBottom>
           Welcome to the enchanting world of "A Rift In Time!"
@@ -169,7 +186,7 @@ const Copy = () => {
           magical experience for all.
         </Typography>
       </Box>
-    </>
+    </div>
   );
 };
 

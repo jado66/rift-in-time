@@ -19,6 +19,7 @@ const AboutPage = () => {
   const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 });
   const [transparency, setTransparency] = useState(0.9);
   const [color, setColor] = useState("#ffffff");
+  const [characterType, setCharacterType] = useState("trans");
 
   const interpolateColor = (startHex, endHex, factor) => {
     // Apply a more aggressive non-linear easing function
@@ -59,8 +60,14 @@ const AboutPage = () => {
       (transitionEnd - transitionStart);
     factor = Math.max(0, Math.min(1, factor)); // Clamp factor between 0 and 1
 
-    const newTransparency = 0.9 - factor * 0.9;
-    const newColor = interpolateColor("#ffffff", "#000000", factor);
+    const newTransparency = factor * 0.9;
+    const newColor = interpolateColor("#000000", "#ffffff", factor);
+
+    if (factor > 0) {
+      setCharacterType("torch");
+    } else {
+      setCharacterType("trans");
+    }
 
     setTransparency(newTransparency);
     setColor(newColor);
@@ -95,7 +102,7 @@ const AboutPage = () => {
             }}
           >
             <WalkingCharacter
-              type="dark"
+              type={characterType}
               onPositionChange={handlePositionChange}
             />
           </Box>

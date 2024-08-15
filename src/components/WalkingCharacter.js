@@ -14,7 +14,7 @@ const WalkingCharacter = ({ type, onPositionChange }) => {
   }, [onPositionChange]);
 
   const getImageSrc = useCallback(() => {
-    const armor = type === "ice" ? "Ice" : "";
+    const armor = type !== "trans" ? type : "";
     switch (walkingState) {
       case "walkingUp":
         return `/characterUp${armor}.png`;
@@ -26,7 +26,7 @@ const WalkingCharacter = ({ type, onPositionChange }) => {
   }, [type, walkingState]);
 
   const updatePosition =
-    type === "dark"
+    type === "torch" || type === "trans"
       ? useCallback(() => {
           if (characterRef.current) {
             const rect = characterRef.current.getBoundingClientRect();

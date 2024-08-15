@@ -14,9 +14,10 @@ import SignHeader from "@/components/SignHeader";
 import WalkingCharacter from "@/components/WalkingCharacter"; // SimpleCharacter,
 import { ScrollYProvider, useScrollY } from "@/components/ScrollYContext";
 
-const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURe7Xjvzmm2xdNW4AAAAJcEhZcwAADsIAAA7CARUoSoAAAABiSURBVCjP7ZCBDQAhDALrBmX/Zb9QMA7xifEqVkSrgDpAX87cVpe9MkIJ3A9HYjFLcwR64ZI2rC7ZqCtDnZypQ/U1M4RKdtZB5EllMCvjKRnKDsWkdgj1SPixSvr/x/MfqA/DHhWJyZpSdgAAAABJRU5ErkJggg==')`;
+const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURe7Xjvzmm2xdNW4AAAAJcEhZcwAADsIAAA7CARUoSoAAAABiSURBVCjP7ZCBDQAhDALrBmX/Zb9QMA7xifEqVkSrgDpAX87cVpe9MkIJ3A9HYjFLcwR64ZI2rC7ZqCtDnZypQ/U1M4RKdtZB5EllMCvjKRnKDsWkdgj1SPixSvr/x/MfqA/DHhWJyZpSdgAAAABJRU5ErkJggg==')`;
 
-const waterToGrassSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURVGv66WJWvzmm+7Xjo3h/ypV5gwAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjP7dDBFYAgDANQWUE2SDcgE7D/UiYXSZ1Bbn5Mm8f1ngEuoBKKBA7cupY0gFIHpqESPBOMCC0BW1s+ALYeXrsSpr5WFpv0H1nMIxsowGy6PYGxdpQC2eN/DwB8AEkEISXmclWYAAAAAElFTkSuQmCC')`;
+const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURVGv66WJWvzmm+7Xjo3h/ypV5gwAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjP7dDBFYAgDANQWUE2SDcgE7D/UiYXSZ1Bbn5Mm8f1ngEuoBKKBA7cupY0gFIHpqESPBOMCC0BW1s+ALYeXrsSpr5WFpv0H1nMIxsowGy6PYGxdpQC2eN/DwB8AEkEISXmclWYAAAAAElFTkSuQmCC')`;
+const borderSrc2 = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURe7Xjvzmm6WJWlGv643h/1ACC6MAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABdSURBVCjP7dBBFcAwCAPQ4KCphdUBEubf08Jhb6Sz0N76DyEAkAhe+T7oN4AGIyjZgDM/oEK4DCwzawjCQZnLgZi39eCIXqyadVDCBlUEBur6g75tLWtw7tHukfkAQ11HV52XatAAAAAASUVORK5CYII=')`;
 const ContactPage = () => {
   const theme = useTheme();
 
@@ -25,8 +26,9 @@ const ContactPage = () => {
   return (
     <GameBackgroundGroundContainer
       bgColor="#51AFEB"
-      mainSrc={grassBackgroundSrc}
-      borderSrc={waterToGrassSrc}
+      mainSrc={mainBackgroundSrc}
+      borderSrc={borderSrc}
+      borderSrc2={borderSrc2}
     >
       <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
         <Grid item xs={1} sx={{ p: "0px !important" }}>
@@ -39,7 +41,7 @@ const ContactPage = () => {
               transform: "translateY(-50%)",
             }}
           >
-            <WalkingCharacter />
+            <WalkingCharacter type="sand" />
           </Box>
         </Grid>
         <Grid item xs={11}>

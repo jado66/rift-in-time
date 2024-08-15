@@ -5,6 +5,7 @@ export const GameBackgroundGroundContainer = ({
   bgColor,
   mainSrc,
   borderSrc,
+  borderSrc2,
   applyMainToEdges,
 }) => {
   const mainBackgroundStyle = {
@@ -14,8 +15,16 @@ export const GameBackgroundGroundContainer = ({
     minHeight: "100vh",
   };
 
-  const waterToGrassBorderStyle = {
+  const borderStyle = {
     backgroundImage: borderSrc,
+    backgroundRepeat: "repeat-y",
+    backgroundSize: "64px 64px",
+    width: "64px",
+    flexShrink: 0,
+  };
+
+  const borderStyle2 = {
+    backgroundImage: borderSrc2,
     backgroundRepeat: "repeat-y",
     backgroundSize: "64px 64px",
     width: "64px",
@@ -44,7 +53,7 @@ export const GameBackgroundGroundContainer = ({
       >
         <div
           style={{
-            ...waterToGrassBorderStyle,
+            ...borderStyle,
           }}
         />
         <div
@@ -61,10 +70,11 @@ export const GameBackgroundGroundContainer = ({
           {children}
         </div>
         <div
-          style={{
-            ...waterToGrassBorderStyle,
-            transform: "scaleX(-1)",
-          }}
+          style={
+            borderSrc2
+              ? borderStyle2
+              : { ...borderStyle, transform: "scaleX(-1)" }
+          }
         />
       </Container>
     </div>
