@@ -23,17 +23,15 @@ const HomePage = () => {
     setLightPosition(position);
   }, []);
   const mainSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURXlYT1Y6P7mgiOEAAAAJcEhZcwAADsIAAA7CARUoSoAAAABYSURBVCjP7dDREcAgCAPQZIOw/7IFJNTrDP3AJ8qBJ0BQotbcfEK1vkKRUfk4lSELBMTKbJXM9VE4s2zXdrsVbm3VwXWacfX5bdQb1oQ10brL+v/H/R/CA1aACAm7J0KMAAAAAElFTkSuQmCC')`;
-  const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURQAAAFY6P5R4XHlYTzAsNBgbInsAAAAJcEhZcwAADsIAAA7CARUoSoAAAABqSURBVCjP7ZDBDYAwDANbqQsEbxBYIPIEIPafCfdDE2Ygz1NjX9re2cgAYoHuLsQFhoGaBdodRAEggpYyyD1KhrtK8sppVjPGLEECHdKI3BJ6kFeu4xM6zqrebHoxi0krXysHK7X/fxiJBwgUHpPbiRf8AAAAAElFTkSuQmCC')`;
-
+  const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURQAAAFY6P5R4XHlYTzAsNBgbInsAAAAJcEhZcwAADsEAAA7BAbiRa+0AAACLSURBVCjP7ZDRDQMhDENBYoHUE5SbIPUE17v9Z6oTQtUhygdSTPwc0nT6QRqdDjhCaI95EE5KZAqnqUilhHEhTNTtKfQApMMWA3wRJtNmvOczEdjCMEOUX0a70h9Rq6NZJia6UuRGNizLmOeGFuNGNOi9UrppophEs9RgWYizftvFD0RQ+N/H7z7AD56tO8MGT09uAAAAAElFTkSuQmCC')`;
   return (
     <GameBackgroundGroundContainer
       bgColor="#000"
       mainSrc={mainSrc}
       borderSrc={borderSrc}
     >
-      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
-        <Grid item xs={1} sx={{ p: "0px !important" }}>
-          {/* Walking character */}
+      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 25 }}>
+        <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           <Box
             sx={{
               p: 0,
@@ -48,9 +46,9 @@ const HomePage = () => {
             />
           </Box>
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
           <Box sx={{ position: "relative", zIndex: 11 }}>
-            <Copy matchesMd={matchesMd} color={"white"} />
+            <Copy matchesMd={matchesMd} color="white" />
           </Box>
         </Grid>
       </Grid>

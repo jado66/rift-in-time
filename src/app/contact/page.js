@@ -16,8 +16,9 @@ import { ScrollYProvider, useScrollY } from "@/components/ScrollYContext";
 
 const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURe7Xjvzmm2xdNW4AAAAJcEhZcwAADsIAAA7CARUoSoAAAABiSURBVCjP7ZCBDQAhDALrBmX/Zb9QMA7xifEqVkSrgDpAX87cVpe9MkIJ3A9HYjFLcwR64ZI2rC7ZqCtDnZypQ/U1M4RKdtZB5EllMCvjKRnKDsWkdgj1SPixSvr/x/MfqA/DHhWJyZpSdgAAAABJRU5ErkJggg==')`;
 
-const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURVGv66WJWvzmm+7Xjo3h/ypV5gwAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjP7dDBFYAgDANQWUE2SDcgE7D/UiYXSZ1Bbn5Mm8f1ngEuoBKKBA7cupY0gFIHpqESPBOMCC0BW1s+ALYeXrsSpr5WFpv0H1nMIxsowGy6PYGxdpQC2eN/DwB8AEkEISXmclWYAAAAAElFTkSuQmCC')`;
-const borderSrc2 = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURe7Xjvzmm6WJWlGv643h/1ACC6MAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABdSURBVCjP7dBBFcAwCAPQ4KCphdUBEubf08Jhb6Sz0N76DyEAkAhe+T7oN4AGIyjZgDM/oEK4DCwzawjCQZnLgZi39eCIXqyadVDCBlUEBur6g75tLWtw7tHukfkAQ11HV52XatAAAAAASUVORK5CYII=')`;
+const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURVGv66WJWvzmm+7Xjo3h/ypV5gwAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABzSURBVCjP7ZDREcAgCEPrXSewG8AGZv/dSgJoh6g/ykNC4NKZ5jDDMvMEjyJHUMUjXs503AkiT8B/BSIEgTeIENQ0HJAkwT1VoNYNXJLtY9AD264DpMDWG1DhAJTCx3oqoJzek2OxAOjxNex2+u+j9mF4AZCNNsuISVGDAAAAAElFTkSuQmCC')`;
+const borderSrc2 = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURe7Xjvzmm6WJWlGv643h/1ACC6MAAAAJcEhZcwAADsAAAA7AAWrWiQkAAABvSURBVCjP7ZBbFcAwCENTB6QWJgEJ8+9pDa+aWH84XDhJCkBikQZu18PpLGkBizF46jNA8wGEwGkxQJpUrY0kqg1kKbBfL6DOBkQqZWmXSLZCqTQsQklpXJhZBihUKPVGKozLihg6QX//v8e9h/sHECIt80jrxn4AAAAASUVORK5CYII=')`;
+
 const ContactPage = () => {
   const theme = useTheme();
 
@@ -31,7 +32,7 @@ const ContactPage = () => {
       borderSrc2={borderSrc2}
     >
       <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
-        <Grid item xs={1} sx={{ p: "0px !important" }}>
+        <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           {/* Walking character */}
           <Box
             sx={{
@@ -44,7 +45,7 @@ const ContactPage = () => {
             <WalkingCharacter type="Sand" />
           </Box>
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
           <Copy matchesMd={matchesMd} />
         </Grid>
       </Grid>

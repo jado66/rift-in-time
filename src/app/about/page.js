@@ -89,10 +89,11 @@ const AboutPage = () => {
     <GameBackgroundGroundContainer
       mainSrc={grassBackgroundSrc}
       borderSrc={waterToGrassSrc}
+      borderBackgroundSrc={treeBackground}
       applyMainToEdges
     >
       <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 25 }}>
-        <Grid item xs={1} sx={{ p: "0px !important" }}>
+        <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           <Box
             sx={{
               p: 0,
@@ -107,7 +108,7 @@ const AboutPage = () => {
             />
           </Box>
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
           <Box sx={{ position: "relative", zIndex: 11 }}>
             <Copy matchesMd={matchesMd} color={color} />
           </Box>
@@ -277,4 +278,5 @@ const Copy = ({ matchesMd, color }) => {
 };
 
 const grassBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAASUExURTq+QWrdSzq7Pjq6PjKOQTq5PuZdsVoAAAAJcEhZcwAADsIAAA7CARUoSoAAAABhSURBVCjPYyAWMKLRyAJMSsKGDAwsDEqKxsIgGiQgApJTUjR0BisCCghDBYyhAs5gGSUVE4gAEUAAzQVYAJNSqCjEHggNFBCFCKiIoglAaaCAqytEAEITCSgNjyHhfQYGAJgEECJ5G9oTAAAAAElFTkSuQmCC')`;
-const waterToGrassSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAC0UExURTq+QS1bQymXUC7KXFDrbCt9SisvNTaQTXyNSDfCWf8oKGrdS2yZTLhMNT51Rjq6PqmGSe85LlV/RzKOQTq7Pju/WFbjaWrNYSmWT5GhUlreZ1jhaDpXQXpdPTh3Ry1+NS17NC6UT3+LR2fRYlx8RvorKbN8RS6TTn9qP0WISjguNHltQHxHOD+LSzORTkOJS61mPDyMTDKSTpFgPF5oQV+jT/UvKrpLNDDIW22ZTEOJSjZYQeH3AmAAAAAJcEhZcwAADsIAAA7CARUoSoAAAAGiSURBVDhPXZPpQsIwEISbkwIqaosKgnhfKN73+7+XM7sJje6PULpfZs9WMGOddxbmfDpD5PtsJhjrXa/uOzECpiRMsHhr60GtgGgFH4fJzwC0QmFjcwsSGRgR8CkHPbd3doOJTdu2w1FbDRnCezrduO7zd2//ICCJNQBCLjtfDyaSow1QyADd9Drr/XRyCCmPNzMQABoC9Kcu5FxCmFNCrQDEFDgqAFYhbiH0D3oHIBUqSdBpkUV6CDHGhbqRKyREAG4lpIiFAK0AwbJQACIBiwhQANIJ3MsjddbEeKwRBGjWncpJoo8dAEt1CMQTsboqYdwHXkUCqkCgWAhNgBVIFSenZzqLf/sgyrTzi0ukBNUsoftAQhh3dX0DAUqU+0ABrULAP0DDLui+iF8QmUUeN0fBjUTybKSIhNtuFjru5WDJTiqBEHep1QkY1/fLFT0EYNHMCGih3Iea91N4npjFWqDiMB8enyS0Jvn88lrOgvsABbigLxJv7x//gNCbr+AgwCQ+v77xYRWAdILiMg9NE9+mEGnc3T5MJ/y2evOfJFFVv+U0GK6r1y4iAAAAAElFTkSuQmCC')`;
+const waterToGrassSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABFUExURSmXUC7KXFDrbCt9SisvNTq+QS1bQ2rdSz51RlV/RzKOQTq7Pjq6PjfCWVbjaWrNYSmWT1jhaDpXQTh3Ry1+NTq5Pi17NEKJdrAAAAAJcEhZcwAADsEAAA7BAbiRa+0AAADnSURBVDhP3ZJJFsMgDEMNZmgJnUvvf9TKQEIgyabLasXwn2w/i0RKExu7L1JKCeCOCAGUuLAG4evrLNxnh1O22AWkB6IzOwDB2mmafIw+ZgB3usCDrrc71yYy4EMBIPlGBeLsABUgNuChATDRsxIAQgwrQJcZmGaLQVIiA69DoCCOXQWGUTMAgo0x7/rWSXoAIEO8F0AmScknOdcmDQp0QPAzgH84OGM+rQIAWCxAboFHIKRQANFf5qFf95iHUT/kYW/dIFoeBmUARJcHmWS9bgCbPLR1H+RhvW5x2OZhWXdpss9Dk7VfoEMVEqSB7b0AAAAASUVORK5CYII=')`;
+const treeBackground = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJUExURS7KXCmXUFDrbNv54XUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAABYSURBVCjP7dCBDcAgCATAhwkYgf7+Q4qKGmxH6MfkDERCxDsGdYNsI/TZmqqPC5fQOFHmMmr9mT7bz8jlmFysBUMff8y3cqRL7pkzSRRzF9tm+/L/jxmiAW60C0F7gcyrAAAAAElFTkSuQmCC')`;

@@ -66,7 +66,7 @@
 }
 
 .character-wrapper {
-  margin-left: -10px;
+  margin-left: 38px;
 }
 
 .idle img {
@@ -82,13 +82,26 @@
   }
 }
 
-@media (min-width: 960px) {
-  /* MD breakpoint in Material-UI */
-  .character-container {
-    justify-content: flex-start;
-    margin-left: 10px; /* Adjust this value to position the character within the column */
-  }
+@media (min-width: 600px) {
+  /* sm breakpoint in Material-UI */
+
   .character-wrapper {
-    margin-left: 10px;
+    margin-left: 40px;
+  }
+}
+
+@media (min-width: 900px) {
+  /* MD breakpoint in Material-UI */
+
+  .character-wrapper {
+    margin-left: 45px;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* MD breakpoint in Material-UI */
+
+  .character-wrapper {
+    margin-left: 55px;
   }
 }

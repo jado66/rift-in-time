@@ -20,7 +20,7 @@ import Link from "next/link";
 
 const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAECAIAAADJUWIXAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAXSURBVBhXY/z3/z8DEmCC0jCAn8/AAAC6RwME3Di+XgAAAABJRU5ErkJggg==')`;
 
-const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAPUExURcLg+d/3+v7///////X//28qt+MAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAnSURBVCjPY4ADRiVlYyDAIyBEFQFnArYwqtDEWkKeI0Ng+IeHsTEAagEj2UKfSm8AAAAASUVORK5CYII=')`;
+const borderSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAMUExURcLg+d/3+v7//////4dDHMcAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAgSURBVCjPYwADIWNjIyUIwC7AqEQDgUFr7Wh4QAWUlAArXzRVG+icgQAAAABJRU5ErkJggg==')`;
 
 const Support = () => {
   const theme = useTheme();
@@ -34,7 +34,7 @@ const Support = () => {
       borderSrc={borderSrc}
     >
       <Grid container spacing={2} sx={{ pl: 0, paddingY: 8 }}>
-        <Grid item xs={1} sx={{ p: "0px !important" }}>
+        <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
           {/* Walking character */}
           <Box
             sx={{
@@ -47,7 +47,7 @@ const Support = () => {
             <WalkingCharacter type="Ice" />
           </Box>
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
           <Copy matchesMd={matchesMd} />
         </Grid>
       </Grid>
