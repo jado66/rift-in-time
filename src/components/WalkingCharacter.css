@@ -4,14 +4,12 @@
   height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
 .character {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   width: 48px;
   height: 69px;
   overflow: hidden;
@@ -19,6 +17,9 @@
 }
 
 .character img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 192px; /* 4 frames */
   height: 69px;
   object-fit: none;
@@ -31,6 +32,10 @@
   animation: walkCycle 0.4s steps(4) infinite;
 }
 
+.idle img {
+  object-position: 0 0;
+}
+
 @keyframes walkCycle {
   from {
     object-position: 0 0;
@@ -40,6 +45,10 @@
   }
 }
 
-.idle img {
-  object-position: 0 0;
+@media (min-width: 960px) {
+  /* MD breakpoint in Material-UI */
+  .character-container {
+    justify-content: flex-start;
+    padding-left: 10px; /* Adjust this value to position the character within the column */
+  }
 }

@@ -24,12 +24,21 @@ const AboutPage = () => {
       mainSrc={grassBackgroundSrc}
       borderSrc={waterToGrassSrc}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={2}>
+      <Grid container spacing={2} sx={{ pl: 0 }}>
+        <Grid item xs={1} sx={{ p: "0px !important" }}>
           {/* Walking character */}
-          <WalkingCharacter />
+          <Box
+            sx={{
+              p: 0,
+              position: "fixed",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          >
+            <WalkingCharacter />
+          </Box>
         </Grid>
-        <Grid item xs={12} md={10}>
+        <Grid item xs={11}>
           {/* Copy content */}
           <Copy matchesMd={matchesMd} />
         </Grid>
