@@ -58,7 +58,7 @@ export default function RootLayout({ children }) {
               bottom: 0, // Adjust based on your footer height
               left: 0,
               right: 0,
-              height: "250px",
+              height: "275px",
               background:
                 "linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 45%)",
               pointerEvents: "none",

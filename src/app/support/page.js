@@ -129,22 +129,25 @@ const Copy = () => {
 
         <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText
-              primary="The latest news and updates on development progress."
-              variant={matchesMd ? "body1" : "body2"}
-            />
+            <ListItemText>
+              <Typography variant={matchesMd ? "body1" : "body2"}>
+                The latest news and updates on development progress.
+              </Typography>
+            </ListItemText>
           </ListItem>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText
-              primary="Exclusive content and behind-the-scenes insights."
-              variant={matchesMd ? "body1" : "body2"}
-            />
+            <ListItemText>
+              <Typography variant={matchesMd ? "body1" : "body2"}>
+                Exclusive content and behind-the-scenes insights.{" "}
+              </Typography>
+            </ListItemText>
           </ListItem>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText
-              primary="Special offers and early access announcements."
-              variant={matchesMd ? "body1" : "body2"}
-            />
+            <ListItemText>
+              <Typography variant={matchesMd ? "body1" : "body2"}>
+                Special offers and early access announcements.{" "}
+              </Typography>
+            </ListItemText>
           </ListItem>
         </List>
 
@@ -213,16 +216,19 @@ const Copy = () => {
 
         <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText
-              primary="Save on the final price range of $15-20."
-              variant={matchesMd ? "body1" : "body2"}
-            />
+            <ListItemText>
+              <Typography variant={matchesMd ? "body1" : "body2"}>
+                Save on the final price range of $15-20.{" "}
+              </Typography>
+            </ListItemText>
           </ListItem>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText
-              primary="Receive unique, exclusive in-game assets as a token of our gratitude for your early support."
-              variant={matchesMd ? "body1" : "body2"}
-            />
+            <ListItemText>
+              <Typography variant={matchesMd ? "body1" : "body2"}>
+                Receive unique, exclusive in-game assets as a token of our
+                gratitude for your early support.{" "}
+              </Typography>
+            </ListItemText>
           </ListItem>
         </List>
 
@@ -250,16 +256,19 @@ const Copy = () => {
 
         <List style={{ listStyleType: "disc", paddingLeft: "20px" }}>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText
-              primary="Hire talented artists to enhance the visual storytelling."
-              variant={matchesMd ? "body1" : "body2"}
-            />
+            <ListItemText>
+              <Typography variant={matchesMd ? "body1" : "body2"}>
+                Hire talented artists to enhance the visual storytelling.{" "}
+              </Typography>
+            </ListItemText>
           </ListItem>
           <ListItem style={{ display: "list-item" }}>
-            <ListItemText
-              primary="Purchase premium game assets to enrich the game's ambiance and overall appeal."
-              variant={matchesMd ? "body1" : "body2"}
-            />
+            <ListItemText>
+              <Typography variant={matchesMd ? "body1" : "body2"}>
+                Purchase premium game assets to enrich the game's ambiance and
+                overall appeal.{" "}
+              </Typography>
+            </ListItemText>
           </ListItem>
         </List>
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -18,6 +18,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 import WalkingCharacter from "@/components/WalkingCharacter";
 import { ExpandMore } from "@mui/icons-material";
+import useSendRequestForm from "@/hooks/useSendRequestForm";
 
 const mainBackgroundSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURe7Xjvzmm2xdNW4AAAAJcEhZcwAADsIAAA7CARUoSoAAAABiSURBVCjP7ZCBDQAhDALrBmX/Zb9QMA7xifEqVkSrgDpAX87cVpe9MkIJ3A9HYjFLcwR64ZI2rC7ZqCtDnZypQ/U1M4RKdtZB5EllMCvjKRnKDsWkdgj1SPixSvr/x/MfqA/DHhWJyZpSdgAAAABJRU5ErkJggg==')`;
 
@@ -31,20 +32,43 @@ const ContactPage = () => {
     email: "",
     message: "",
   });
+  const { loading, error, sendRequestFormByEmail } = useSendRequestForm();
 
   const [expanded, setExpanded] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitTime, setSubmitTime] = useState(0);
 
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setIsSubmitted(false); // Reset submission state when form changes
   };
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  const handleSubmit = (e) => {
-    alert(
-      "Come back in a couple weeks and this should work. You can email jd@platinumprogramming.com for questions."
-    );
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Prevent submission if the form was submitted in the last 30 seconds
+    if (Date.now() - submitTime < 30000) {
+      toast.warning("Please wait before submitting again.");
+      return;
+    }
+
+    // Prevent submission if the form has already been successfully submitted
+    if (isSubmitted) {
+      toast.warning("This form has already been submitted.");
+      return;
+    }
+
+    const success = await sendRequestFormByEmail(formData);
+    setSubmitTime(Date.now());
+
+    if (success) {
+      setIsSubmitted(true);
+      setFormData({ name: "", email: "", message: "" }); // Reset form after successful submission
+    }
   };
 
   return (
@@ -167,13 +191,18 @@ const ContactPage = () => {
                       type="submit"
                       variant="contained"
                       fullWidth
+                      disabled={loading || isSubmitted}
                       sx={{
                         fontFamily: "'Press Start 2P', cursive",
                         fontSize: "0.8rem",
                         padding: "12px",
                       }}
                     >
-                      Send
+                      {loading
+                        ? "Sending..."
+                        : isSubmitted
+                        ? "Submitted"
+                        : "Send"}
                     </Button>
                   </Grid>
                 </Grid>
