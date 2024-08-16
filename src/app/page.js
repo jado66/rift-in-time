@@ -162,6 +162,7 @@ const Copy = () => {
         >
           {!iframeActive && (
             <Box
+              id="play"
               sx={{
                 position: "absolute",
                 top: 0,
