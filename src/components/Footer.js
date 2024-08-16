@@ -14,13 +14,22 @@ import {
   useTheme,
 } from "@mui/material";
 import { YouTube, Instagram, Send } from "@mui/icons-material";
+import useSubscribe from "@/hooks/useSubscribe";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+
+  const { loading, error, success, subscribe } = useSubscribe();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (success) {
+      setIsSubmitted(true);
+    }
+  }, [success]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -29,9 +38,8 @@ const Footer = () => {
   const handleNewsletterSubscription = async (event) => {
     event.preventDefault();
     if (email && !isSubmitted) {
-      // Here you would typically call your subscribe function
-      // For now, we'll just simulate a successful subscription
-      setIsSubmitted(true);
+      await subscribe(email);
+
       setEmail(""); // Clear the input on success
     }
   };
@@ -178,9 +186,16 @@ const Footer = () => {
                 size="small"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={isSubmitted}
-                helperText={isSubmitted ? "Thank you for subscribing!" : ""}
-                placeholder={matchesMd ? "Put your email here" : "Email"}
+                helperText={error}
+                placeholder={
+                  matchesMd
+                    ? isSubmitted
+                      ? "Thank you for subscribing!"
+                      : "Put your email here"
+                    : isSubmitted
+                    ? "Subscribed!"
+                    : "Email"
+                }
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
