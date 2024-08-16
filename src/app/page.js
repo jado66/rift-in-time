@@ -69,7 +69,28 @@ const Copy = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   const toggleFullscreen = useCallback(() => {
-    // ... (previous fullscreen code remains the same)
+    const iframe = document.getElementById("game-iframe");
+    if (!document.fullscreenElement) {
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.webkitRequestFullscreen) {
+        /* Safari */
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) {
+        /* IE11 */
+        iframe.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        /* Safari */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        /* IE11 */
+        document.msExitFullscreen();
+      }
+    }
   }, []);
 
   const handleIframeActivation = () => {
