@@ -13,6 +13,11 @@ import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContai
 import useMediaQuery from "@mui/material/useMediaQuery";
 import WalkingCharacter from "@/components/WalkingCharacter"; // SimpleCharacter,
 import { Fullscreen } from "@mui/icons-material";
+import dynamic from "next/dynamic";
+const UnityWebGL = dynamic(() => import("@/components/UnityWebGl"), {
+  ssr: false,
+  loading: () => <p>Loading Unity WebGL...</p>,
+});
 
 const HomePage = () => {
   const theme = useTheme();
@@ -68,60 +73,35 @@ const Copy = () => {
   const [iframeActive, setIframeActive] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
-  const toggleFullscreen = useCallback(() => {
-    const iframe = document.getElementById("game-iframe");
-    if (!document.fullscreenElement) {
-      if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-      } else if (iframe.webkitRequestFullscreen) {
-        /* Safari */
-        iframe.webkitRequestFullscreen();
-      } else if (iframe.msRequestFullscreen) {
-        /* IE11 */
-        iframe.msRequestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        /* Safari */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        /* IE11 */
-        document.msExitFullscreen();
-      }
-    }
+  const handleFullscreenChange = useCallback((fullscreenState) => {
+    setIsFullscreen(fullscreenState);
   }, []);
 
   const handleIframeActivation = () => {
     setIframeActive(true);
   };
 
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener(
-        "webkitfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "mozfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "MSFullscreenChange",
-        handleFullscreenChange
-      );
-    };
+  const toggleFullscreen = useCallback(() => {
+    const unityCanvas = document.getElementById("unity-canvas");
+    if (unityCanvas) {
+      if (!document.fullscreenElement) {
+        if (unityCanvas.requestFullscreen) {
+          unityCanvas.requestFullscreen();
+        } else if (unityCanvas.webkitRequestFullscreen) {
+          unityCanvas.webkitRequestFullscreen();
+        } else if (unityCanvas.msRequestFullscreen) {
+          unityCanvas.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    }
   }, []);
 
   return (
@@ -189,20 +169,9 @@ const Copy = () => {
               </Button>
             </Box>
           )}
-          <iframe
-            id="game-iframe"
-            src="https://i.simmer.io/@JDIndieGames/rift-in-time"
-            style={{
-              width: isSmallScreen ? "100%" : "960px",
-              height: isSmallScreen ? "300px" : "600px",
-              border: "none",
-              zIndex: iframeActive ? 2000 : 1,
-            }}
-            allowFullScreen
-          ></iframe>
+          {iframeActive && <UnityWebGL onFullscreen={handleFullscreenChange} />}
         </Card>
         <Button
-          onClick={toggleFullscreen}
           variant="contained"
           sx={{
             mt: 3,
@@ -211,6 +180,7 @@ const Copy = () => {
             color: "black",
             "&:hover": { backgroundColor: "lightgray" },
           }}
+          onClick={toggleFullscreen} // Add this line to handle the click event
         >
           <Fullscreen sx={{ mr: 1 }} />
           {isFullscreen ? "Exit Fullscreen" : "Make Fullscreen"}
