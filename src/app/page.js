@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -72,36 +72,71 @@ const Copy = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [iframeActive, setIframeActive] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const canvasRef = useRef(null);
 
   const handleFullscreenChange = useCallback((fullscreenState) => {
     setIsFullscreen(fullscreenState);
   }, []);
 
-  const handleIframeActivation = () => {
+  const handleIframeActivation = useCallback(() => {
     setIframeActive(true);
-  };
+  }, []);
 
   const toggleFullscreen = useCallback(() => {
-    const unityCanvas = document.getElementById("unity-canvas");
-    if (unityCanvas) {
-      if (!document.fullscreenElement) {
-        if (unityCanvas.requestFullscreen) {
-          unityCanvas.requestFullscreen();
-        } else if (unityCanvas.webkitRequestFullscreen) {
-          unityCanvas.webkitRequestFullscreen();
-        } else if (unityCanvas.msRequestFullscreen) {
-          unityCanvas.msRequestFullscreen();
-        }
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
-        }
+    if (!canvasRef.current) return;
+
+    if (!document.fullscreenElement) {
+      if (canvasRef.current.requestFullscreen) {
+        canvasRef.current.requestFullscreen().catch((err) => {
+          console.error(
+            `Error attempting to enable fullscreen: ${err.message}`
+          );
+        });
+      } else if (canvasRef.current.webkitRequestFullscreen) {
+        // Safari
+        canvasRef.current.webkitRequestFullscreen();
+      } else if (canvasRef.current.msRequestFullscreen) {
+        // IE11
+        canvasRef.current.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        // Safari
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        // IE11
+        document.msExitFullscreen();
       }
     }
+  }, []);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "mozfullscreenchange",
+        handleFullscreenChange
+      );
+      document.removeEventListener(
+        "MSFullscreenChange",
+        handleFullscreenChange
+      );
+    };
   }, []);
 
   return (
@@ -131,18 +166,18 @@ const Copy = () => {
           Play <em>A Rift In Time</em> - Version Alpha 1.0
         </Typography>
         <Card
+          ref={canvasRef}
           sx={{
             margin: "auto",
             minHeight: isSmallScreen ? "200px" : "400px",
             width: isSmallScreen ? "100%" : "960px",
             backgroundColor: "darkgray",
-            border: "4px solid white",
+            // border: "4px solid white",
             position: "relative",
           }}
         >
           {!iframeActive && (
             <Box
-              id="play"
               sx={{
                 position: "absolute",
                 top: 0,
@@ -169,7 +204,12 @@ const Copy = () => {
               </Button>
             </Box>
           )}
-          {iframeActive && <UnityWebGL onFullscreen={handleFullscreenChange} />}
+          {iframeActive && (
+            <UnityWebGL
+              onFullscreen={handleFullscreenChange}
+              canvasRef={canvasRef}
+            />
+          )}
         </Card>
         <Button
           variant="contained"
@@ -180,7 +220,8 @@ const Copy = () => {
             color: "black",
             "&:hover": { backgroundColor: "lightgray" },
           }}
-          onClick={toggleFullscreen} // Add this line to handle the click event
+          onClick={toggleFullscreen}
+          disabled={!canvasRef.current}
         >
           <Fullscreen sx={{ mr: 1 }} />
           {isFullscreen ? "Exit Fullscreen" : "Make Fullscreen"}
