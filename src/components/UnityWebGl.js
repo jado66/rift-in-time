@@ -6,8 +6,18 @@ const UnityWebGLClient = ({ onFullscreen }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLandscape, setIsLandscape] = useState(true);
   const canvasRef = useRef();
+  const initializationAttemptedRef = useRef(false);
 
   const loadUnityGame = useCallback(async () => {
+    if (unityInstance || initializationAttemptedRef.current) {
+      console.log(
+        "Unity instance already exists or initialization attempted, skipping"
+      );
+      return;
+    }
+
+    initializationAttemptedRef.current = true;
+
     if (typeof window.createUnityInstance === "undefined") {
       const script = document.createElement("script");
       script.src = "/unity/WebGl/Build/WebGl.loader.js";
@@ -42,13 +52,15 @@ const UnityWebGLClient = ({ onFullscreen }) => {
         console.log("Unity content is loaded and ready");
       } catch (error) {
         console.error("Failed to load Unity content:", error);
+        initializationAttemptedRef.current = false; // Reset the flag to allow retry
       }
     } else {
       console.error(
         "createUnityInstance is not available or canvas is not ready"
       );
+      initializationAttemptedRef.current = false; // Reset the flag to allow retry
     }
-  }, []);
+  }, [unityInstance]);
 
   useEffect(() => {
     loadUnityGame();
@@ -56,9 +68,10 @@ const UnityWebGLClient = ({ onFullscreen }) => {
     return () => {
       if (unityInstance) {
         unityInstance.Quit();
+        setUnityInstance(null);
       }
     };
-  }, [loadUnityGame]);
+  }, [loadUnityGame, unityInstance]);
 
   const handleFullscreenChange = useCallback(() => {
     const fullscreenElement =

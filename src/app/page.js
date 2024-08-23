@@ -73,13 +73,17 @@ const Copy = () => {
   const [iframeActive, setIframeActive] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const canvasRef = useRef(null);
+  const unityLoadedRef = useRef(false);
 
   const handleFullscreenChange = useCallback((fullscreenState) => {
     setIsFullscreen(fullscreenState);
   }, []);
 
   const handleIframeActivation = useCallback(() => {
-    setIframeActive(true);
+    if (!unityLoadedRef.current) {
+      setIframeActive(true);
+      unityLoadedRef.current = true;
+    }
   }, []);
 
   const toggleFullscreen = useCallback(() => {
