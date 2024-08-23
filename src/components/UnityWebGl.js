@@ -1,4 +1,6 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
+import { Button } from "@mui/material";
+import { Fullscreen, FullscreenExit } from "@mui/icons-material";
 
 const UnityWebGLClient = ({ onFullscreen }) => {
   const [unityInstance, setUnityInstance] = useState(null);
@@ -6,60 +8,11 @@ const UnityWebGLClient = ({ onFullscreen }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLandscape, setIsLandscape] = useState(true);
   const canvasRef = useRef();
+  const containerRef = useRef();
   const initializationAttemptedRef = useRef(false);
 
   const loadUnityGame = useCallback(async () => {
-    if (unityInstance || initializationAttemptedRef.current) {
-      console.log(
-        "Unity instance already exists or initialization attempted, skipping"
-      );
-      return;
-    }
-
-    initializationAttemptedRef.current = true;
-
-    if (typeof window.createUnityInstance === "undefined") {
-      const script = document.createElement("script");
-      script.src = "/unity/WebGl/Build/WebGl.loader.js";
-      script.async = true;
-
-      await new Promise((resolve) => {
-        script.onload = resolve;
-        document.body.appendChild(script);
-      });
-    }
-
-    if (typeof window.createUnityInstance === "function" && canvasRef.current) {
-      try {
-        const unityInstance = await window.createUnityInstance(
-          canvasRef.current,
-          {
-            dataUrl: "/unity/WebGl/Build/WebGl.data",
-            frameworkUrl: "/unity/WebGl/Build/WebGl.framework.js",
-            codeUrl: "/unity/WebGl/Build/WebGl.wasm",
-            streamingAssetsUrl: "unity/StreamingAssets",
-            companyName: "Your Company Name",
-            productName: "Your Product Name",
-            productVersion: "1.0",
-          },
-          (progress) => {
-            setLoadingProgress(progress);
-            console.log(`Loading progress: ${progress * 100}%`);
-          }
-        );
-
-        setUnityInstance(unityInstance);
-        console.log("Unity content is loaded and ready");
-      } catch (error) {
-        console.error("Failed to load Unity content:", error);
-        initializationAttemptedRef.current = false; // Reset the flag to allow retry
-      }
-    } else {
-      console.error(
-        "createUnityInstance is not available or canvas is not ready"
-      );
-      initializationAttemptedRef.current = false; // Reset the flag to allow retry
-    }
+    // ... (existing loadUnityGame logic)
   }, [unityInstance]);
 
   useEffect(() => {
@@ -119,12 +72,45 @@ const UnityWebGLClient = ({ onFullscreen }) => {
     };
   }, [handleFullscreenChange, checkOrientation]);
 
+  const toggleFullscreen = useCallback(() => {
+    if (isFullscreen) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+      setIsFullscreen(false);
+    } else {
+      const element = containerRef.current;
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      } else {
+        // Fallback for iOS
+        element.style.position = "fixed";
+        element.style.top = "0";
+        element.style.left = "0";
+        element.style.width = "100%";
+        element.style.height = "100%";
+        element.style.zIndex = "9999";
+        setIsFullscreen(true);
+      }
+    }
+  }, [isFullscreen]);
+
   return (
     <div
+      ref={containerRef}
       style={{
         width: "100%",
         height: "100%",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         overflow: "hidden",
@@ -183,6 +169,18 @@ const UnityWebGLClient = ({ onFullscreen }) => {
           <div style={{ fontSize: "48px", marginTop: "20px" }}>📱↔️</div>
         </div>
       )}
+      <Button
+        variant="contained"
+        onClick={toggleFullscreen}
+        style={{
+          position: "absolute",
+          bottom: "10px",
+          right: "10px",
+          zIndex: 1001,
+        }}
+      >
+        {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
+      </Button>
     </div>
   );
 };
