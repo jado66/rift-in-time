@@ -12,7 +12,57 @@ const UnityWebGLClient = ({ onFullscreen }) => {
   const initializationAttemptedRef = useRef(false);
 
   const loadUnityGame = useCallback(async () => {
-    // ... (existing loadUnityGame logic)
+    if (unityInstance || initializationAttemptedRef.current) {
+      console.log(
+        "Unity instance already exists or initialization attempted, skipping"
+      );
+      return;
+    }
+
+    initializationAttemptedRef.current = true;
+
+    if (typeof window.createUnityInstance === "undefined") {
+      const script = document.createElement("script");
+      script.src = "/unity/WebGl/Build/WebGl.loader.js";
+      script.async = true;
+
+      await new Promise((resolve) => {
+        script.onload = resolve;
+        document.body.appendChild(script);
+      });
+    }
+
+    if (typeof window.createUnityInstance === "function" && canvasRef.current) {
+      try {
+        const unityInstance = await window.createUnityInstance(
+          canvasRef.current,
+          {
+            dataUrl: "/unity/WebGl/Build/WebGl.data",
+            frameworkUrl: "/unity/WebGl/Build/WebGl.framework.js",
+            codeUrl: "/unity/WebGl/Build/WebGl.wasm",
+            streamingAssetsUrl: "unity/StreamingAssets",
+            companyName: "Your Company Name",
+            productName: "Your Product Name",
+            productVersion: "1.0",
+          },
+          (progress) => {
+            setLoadingProgress(progress);
+            console.log(`Loading progress: ${progress * 100}%`);
+          }
+        );
+
+        setUnityInstance(unityInstance);
+        console.log("Unity content is loaded and ready");
+      } catch (error) {
+        console.error("Failed to load Unity content:", error);
+        initializationAttemptedRef.current = false; // Reset the flag to allow retry
+      }
+    } else {
+      console.error(
+        "createUnityInstance is not available or canvas is not ready"
+      );
+      initializationAttemptedRef.current = false; // Reset the flag to allow retry
+    }
   }, [unityInstance]);
 
   useEffect(() => {
@@ -169,18 +219,6 @@ const UnityWebGLClient = ({ onFullscreen }) => {
           <div style={{ fontSize: "48px", marginTop: "20px" }}>📱↔️</div>
         </div>
       )}
-      <Button
-        variant="contained"
-        onClick={toggleFullscreen}
-        style={{
-          position: "absolute",
-          bottom: "10px",
-          right: "10px",
-          zIndex: 1001,
-        }}
-      >
-        {isFullscreen ? <FullscreenExit /> : <Fullscreen />}
-      </Button>
     </div>
   );
 };
