@@ -96,6 +96,12 @@ const Copy = ({
   canvasRef,
 }) => {
   const handle = useFullScreenHandle();
+  const [isSupposedlyFullscreen, setSupposedlyFullscreen] = useState(false);
+
+  const setFullscreen = () => {
+    setSupposedlyFullscreen(true);
+    handle.enter;
+  };
 
   return (
     <div style={{ color: "white" }}>
@@ -179,12 +185,33 @@ const Copy = ({
             color: "black",
             "&:hover": { backgroundColor: "lightgray" },
           }}
-          onClick={handle.enter}
+          onClick={setFullscreen}
           disabled={!canvasRef.current}
         >
           <Fullscreen sx={{ mr: 1 }} />
           Make Fullscreen
         </Button>
+        {isSupposedlyFullscreen && (
+          <>
+            <Typography variant="h6">
+              Not Fullscreen? Are you on an Iphone?
+            </Typography>
+            <Button
+              variant="contained"
+              sx={{
+                mt: 3,
+                mx: "auto",
+                backgroundColor: "white",
+                color: "black",
+                "&:hover": { backgroundColor: "lightgray" },
+              }}
+              href="/play-ios"
+              disabled={!canvasRef.current}
+            >
+              Click here to play on Iphone
+            </Button>
+          </>
+        )}
       </Box>
     </div>
   );
