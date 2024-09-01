@@ -11,9 +11,11 @@ import {
 } from "@mui/material";
 import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContainer";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import WalkingCharacter from "@/components/WalkingCharacter"; // SimpleCharacter,
-import { Fullscreen } from "@mui/icons-material";
+import WalkingCharacter from "@/components/WalkingCharacter";
+import { Fullscreen, FullscreenExit } from "@mui/icons-material";
 import dynamic from "next/dynamic";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+
 const UnityWebGL = dynamic(() => import("@/components/UnityWebGl"), {
   ssr: false,
   loading: () => <p>Loading Unity WebGL...</p>,
@@ -22,11 +24,23 @@ const UnityWebGL = dynamic(() => import("@/components/UnityWebGl"), {
 const HomePage = () => {
   const theme = useTheme();
   const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 });
-
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
+  const [iframeActive, setIframeActive] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const canvasRef = useRef(null);
+  const unityLoadedRef = useRef(false);
+
   const handlePositionChange = useCallback((position) => {
     setLightPosition(position);
   }, []);
+
+  const handleIframeActivation = useCallback(() => {
+    if (!unityLoadedRef.current) {
+      setIframeActive(true);
+      unityLoadedRef.current = true;
+    }
+  }, []);
+
   return (
     <GameBackgroundGroundContainer
       bgColor="#000"
@@ -51,7 +65,14 @@ const HomePage = () => {
         </Grid>
         <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
           <Box sx={{ position: "relative", zIndex: 11 }}>
-            <Copy matchesMd={matchesMd} color="white" />
+            <Copy
+              matchesMd={matchesMd}
+              color="white"
+              iframeActive={iframeActive}
+              handleIframeActivation={handleIframeActivation}
+              isSmallScreen={isSmallScreen}
+              canvasRef={canvasRef}
+            />
           </Box>
         </Grid>
       </Grid>
@@ -68,80 +89,13 @@ const HomePage = () => {
   );
 };
 
-const Copy = () => {
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [iframeActive, setIframeActive] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
-  const canvasRef = useRef(null);
-  const unityLoadedRef = useRef(false);
-
-  const handleFullscreenChange = useCallback((fullscreenState) => {
-    setIsFullscreen(fullscreenState);
-  }, []);
-
-  const handleIframeActivation = useCallback(() => {
-    if (!unityLoadedRef.current) {
-      setIframeActive(true);
-      unityLoadedRef.current = true;
-    }
-  }, []);
-
-  const toggleFullscreen = useCallback(() => {
-    if (!canvasRef.current) return;
-
-    if (!document.fullscreenElement) {
-      if (canvasRef.current.requestFullscreen) {
-        canvasRef.current.requestFullscreen().catch((err) => {
-          console.error(
-            `Error attempting to enable fullscreen: ${err.message}`
-          );
-        });
-      } else if (canvasRef.current.webkitRequestFullscreen) {
-        // Safari
-        canvasRef.current.webkitRequestFullscreen();
-      } else if (canvasRef.current.msRequestFullscreen) {
-        // IE11
-        canvasRef.current.msRequestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        // Safari
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        // IE11
-        document.msExitFullscreen();
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener(
-        "webkitfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "mozfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "MSFullscreenChange",
-        handleFullscreenChange
-      );
-    };
-  }, []);
+const Copy = ({
+  iframeActive,
+  handleIframeActivation,
+  isSmallScreen,
+  canvasRef,
+}) => {
+  const handle = useFullScreenHandle();
 
   return (
     <div style={{ color: "white" }}>
@@ -169,6 +123,7 @@ const Copy = () => {
         <Typography variant="h4" gutterBottom>
           Play <em>A Rift In Time</em> - Version Alpha 1.0
         </Typography>
+
         <Card
           ref={canvasRef}
           sx={{
@@ -176,43 +131,43 @@ const Copy = () => {
             minHeight: isSmallScreen ? "200px" : "400px",
             width: isSmallScreen ? "100%" : "960px",
             backgroundColor: "darkgray",
-            // border: "4px solid white",
             position: "relative",
           }}
         >
           {!iframeActive && (
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-                zIndex: 1,
-              }}
-            >
-              <Button
-                variant="contained"
-                onClick={handleIframeActivation}
+            <FullScreen handle={handle}>
+              <Box
                 sx={{
-                  backgroundColor: "white",
-                  color: "black",
-                  "&:hover": { backgroundColor: "lightgray" },
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  zIndex: 1,
                 }}
               >
-                Click to Activate Game
-              </Button>
-            </Box>
+                <Button
+                  variant="contained"
+                  onClick={handleIframeActivation}
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    "&:hover": { backgroundColor: "lightgray" },
+                  }}
+                >
+                  Click to Activate Game
+                </Button>
+              </Box>
+            </FullScreen>
           )}
           {iframeActive && (
-            <UnityWebGL
-              onFullscreen={handleFullscreenChange}
-              canvasRef={canvasRef}
-            />
+            <FullScreen handle={handle}>
+              <UnityWebGL canvasRef={canvasRef} />
+            </FullScreen>
           )}
         </Card>
         <Button
@@ -224,16 +179,17 @@ const Copy = () => {
             color: "black",
             "&:hover": { backgroundColor: "lightgray" },
           }}
-          onClick={toggleFullscreen}
+          onClick={handle.enter}
           disabled={!canvasRef.current}
         >
           <Fullscreen sx={{ mr: 1 }} />
-          {isFullscreen ? "Exit Fullscreen" : "Make Fullscreen"}
+          Make Fullscreen
         </Button>
       </Box>
     </div>
   );
 };
+
 export default HomePage;
 
 const mainSrc = `url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURXlYT1Y6P7mgiOEAAAAJcEhZcwAADsIAAA7CARUoSoAAAABYSURBVCjP7dDREcAgCAPQZIOw/7IFJNTrDP3AJ8qBJ0BQotbcfEK1vkKRUfk4lSELBMTKbJXM9VE4s2zXdrsVbm3VwXWacfX5bdQb1oQ10brL+v/H/R/CA1aACAm7J0KMAAAAAElFTkSuQmCC')`;

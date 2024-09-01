@@ -1,11 +1,8 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
-import { Button } from "@mui/material";
-import { Fullscreen, FullscreenExit } from "@mui/icons-material";
 
-const UnityWebGLClient = ({ onFullscreen }) => {
+const UnityWebGLClient = () => {
   const [unityInstance, setUnityInstance] = useState(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLandscape, setIsLandscape] = useState(true);
   const canvasRef = useRef();
   const containerRef = useRef();
@@ -76,18 +73,6 @@ const UnityWebGLClient = ({ onFullscreen }) => {
     };
   }, [loadUnityGame, unityInstance]);
 
-  const handleFullscreenChange = useCallback(() => {
-    const fullscreenElement =
-      document.fullscreenElement ||
-      document.webkitFullscreenElement ||
-      document.mozFullScreenElement ||
-      document.msFullscreenElement;
-    setIsFullscreen(!!fullscreenElement);
-    if (onFullscreen) {
-      onFullscreen(!!fullscreenElement);
-    }
-  }, [onFullscreen]);
-
   const checkOrientation = useCallback(() => {
     setIsLandscape(window.innerWidth > window.innerHeight);
   }, []);
@@ -97,61 +82,11 @@ const UnityWebGLClient = ({ onFullscreen }) => {
     window.addEventListener("resize", checkOrientation);
     window.addEventListener("orientationchange", checkOrientation);
 
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
-
     return () => {
       window.removeEventListener("resize", checkOrientation);
       window.removeEventListener("orientationchange", checkOrientation);
-
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener(
-        "webkitfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "mozfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "MSFullscreenChange",
-        handleFullscreenChange
-      );
     };
-  }, [handleFullscreenChange, checkOrientation]);
-
-  const toggleFullscreen = useCallback(() => {
-    if (isFullscreen) {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
-      setIsFullscreen(false);
-    } else {
-      const element = containerRef.current;
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
-      } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen();
-      } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
-      } else {
-        // Fallback for iOS
-        element.style.position = "fixed";
-        element.style.top = "0";
-        element.style.left = "0";
-        element.style.width = "100%";
-        element.style.height = "100%";
-        element.style.zIndex = "9999";
-        setIsFullscreen(true);
-      }
-    }
-  }, [isFullscreen]);
+  }, [checkOrientation]);
 
   return (
     <div
