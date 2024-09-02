@@ -15,6 +15,7 @@ import WalkingCharacter from "@/components/WalkingCharacter";
 import { Fullscreen, FullscreenExit } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import MainLayout from "./mainLayout";
 
 const UnityWebGL = dynamic(() => import("@/components/UnityWebGl"), {
   ssr: false,
@@ -42,50 +43,52 @@ const HomePage = () => {
   }, []);
 
   return (
-    <GameBackgroundGroundContainer
-      bgColor="#000"
-      mainSrc={mainSrc}
-      borderSrc={borderSrc}
-    >
-      <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 45 }}>
-        <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
-          <Box
-            sx={{
-              p: 0,
-              position: "fixed",
-              top: "50%",
-              transform: "translateY(-50%)",
-            }}
-          >
-            <WalkingCharacter
-              type="Torch"
-              onPositionChange={handlePositionChange}
-            />
-          </Box>
+    <MainLayout>
+      <GameBackgroundGroundContainer
+        bgColor="#000"
+        mainSrc={mainSrc}
+        borderSrc={borderSrc}
+      >
+        <Grid container spacing={2} sx={{ pl: 0, paddingY: 8, pb: 45 }}>
+          <Grid item xs={2} sm={1.5} md={1} sx={{ p: "0px !important" }}>
+            <Box
+              sx={{
+                p: 0,
+                position: "fixed",
+                top: "50%",
+                transform: "translateY(-50%)",
+              }}
+            >
+              <WalkingCharacter
+                type="Torch"
+                onPositionChange={handlePositionChange}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
+            <Box sx={{ position: "relative", zIndex: 11 }}>
+              <Copy
+                matchesMd={matchesMd}
+                color="white"
+                iframeActive={iframeActive}
+                handleIframeActivation={handleIframeActivation}
+                isSmallScreen={isSmallScreen}
+                canvasRef={canvasRef}
+              />
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={10} sm={10.5} md={11} sx={{ pr: 4 }}>
-          <Box sx={{ position: "relative", zIndex: 11 }}>
-            <Copy
-              matchesMd={matchesMd}
-              color="white"
-              iframeActive={iframeActive}
-              handleIframeActivation={handleIframeActivation}
-              isSmallScreen={isSmallScreen}
-              canvasRef={canvasRef}
-            />
-          </Box>
-        </Grid>
-      </Grid>
-      <div
-        className="darkness-overlay"
-        style={{
-          "--light-x": `${lightPosition.x}px`,
-          "--light-y": `${lightPosition.y}px`,
-          "--transparency": `.9`,
-          zIndex: 9,
-        }}
-      />
-    </GameBackgroundGroundContainer>
+        <div
+          className="darkness-overlay"
+          style={{
+            "--light-x": `${lightPosition.x}px`,
+            "--light-y": `${lightPosition.y}px`,
+            "--transparency": `.9`,
+            zIndex: 9,
+          }}
+        />
+      </GameBackgroundGroundContainer>
+    </MainLayout>
   );
 };
 
