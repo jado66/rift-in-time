@@ -99,12 +99,50 @@ const Copy = ({
   canvasRef,
 }) => {
   const handle = useFullScreenHandle();
-  const [isSupposedlyFullscreen, setSupposedlyFullscreen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const unityContainerRef = useRef(null);
 
   const setFullscreen = () => {
-    setSupposedlyFullscreen(true);
-    handle.enter;
+    setFullscreen(true);
+    toggleFullscreen();
   };
+
+  const toggleFullscreen = useCallback(() => {
+    if (!unityContainerRef.current) return;
+
+    if (!isFullscreen) {
+      if (unityContainerRef.current.requestFullscreen) {
+        unityContainerRef.current.requestFullscreen();
+      } else if (unityContainerRef.current.mozRequestFullScreen) {
+        unityContainerRef.current.mozRequestFullScreen();
+      } else if (unityContainerRef.current.webkitRequestFullscreen) {
+        unityContainerRef.current.webkitRequestFullscreen();
+      } else if (unityContainerRef.current.msRequestFullscreen) {
+        unityContainerRef.current.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+  }, [isFullscreen]);
+
+  React.useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(document.fullscreenElement === unityContainerRef.current);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
 
   return (
     <div style={{ color: "white" }}>
@@ -173,11 +211,7 @@ const Copy = ({
               </Box>
             </FullScreen>
           )}
-          {iframeActive && (
-            <FullScreen handle={handle}>
-              <UnityWebGL canvasRef={canvasRef} />
-            </FullScreen>
-          )}
+          {iframeActive && <UnityWebGL canvasRef={unityContainerRef} />}
         </Card>
         <Button
           variant="contained"
@@ -188,13 +222,13 @@ const Copy = ({
             color: "black",
             "&:hover": { backgroundColor: "lightgray" },
           }}
-          onClick={setFullscreen}
-          disabled={!canvasRef.current}
+          onClick={toggleFullscreen}
+          disabled={!iframeActive}
         >
           <Fullscreen sx={{ mr: 1 }} />
           Make Fullscreen
         </Button>
-        {isSupposedlyFullscreen && (
+        {isFullscreen && (
           <>
             <Typography variant="h6">
               Not Fullscreen? Are you on an Iphone?

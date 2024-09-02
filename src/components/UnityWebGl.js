@@ -1,10 +1,9 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 
-const UnityWebGLClient = () => {
+const UnityWebGLClient = ({ canvasRef }) => {
   const [unityInstance, setUnityInstance] = useState(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isLandscape, setIsLandscape] = useState(true);
-  const canvasRef = useRef();
   const containerRef = useRef();
   const initializationAttemptedRef = useRef(false);
 
