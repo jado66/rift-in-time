@@ -1,80 +1,36 @@
-import React, { useEffect, useCallback, useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import { Unity, useUnityContext } from "react-unity-webgl";
 
-const UnityWebGLClient = ({ canvasRef }) => {
-  const [unityInstance, setUnityInstance] = useState(null);
-  const [loadingProgress, setLoadingProgress] = useState(0);
+const UnityWebGL = ({ onLoaded, onRequestFullscreen }) => {
   const [isLandscape, setIsLandscape] = useState(true);
-  const containerRef = useRef();
-  const initializationAttemptedRef = useRef(false);
 
-  const loadUnityGame = useCallback(async () => {
-    if (unityInstance || initializationAttemptedRef.current) {
-      console.log(
-        "Unity instance already exists or initialization attempted, skipping"
-      );
-      return;
-    }
-
-    initializationAttemptedRef.current = true;
-
-    if (typeof window.createUnityInstance === "undefined") {
-      const script = document.createElement("script");
-      script.src = "/unity/WebGl/Build/WebGl.loader.js";
-      script.async = true;
-
-      await new Promise((resolve) => {
-        script.onload = resolve;
-        document.body.appendChild(script);
-      });
-    }
-
-    if (typeof window.createUnityInstance === "function" && canvasRef.current) {
-      try {
-        const unityInstance = await window.createUnityInstance(
-          canvasRef.current,
-          {
-            dataUrl: "/unity/WebGl/Build/WebGl.data",
-            frameworkUrl: "/unity/WebGl/Build/WebGl.framework.js",
-            codeUrl: "/unity/WebGl/Build/WebGl.wasm",
-            streamingAssetsUrl: "unity/StreamingAssets",
-            companyName: "Your Company Name",
-            productName: "Your Product Name",
-            productVersion: "1.0",
-          },
-          (progress) => {
-            setLoadingProgress(progress);
-            console.log(`Loading progress: ${progress * 100}%`);
-          }
-        );
-
-        setUnityInstance(unityInstance);
-        console.log("Unity content is loaded and ready");
-      } catch (error) {
-        console.error("Failed to load Unity content:", error);
-        initializationAttemptedRef.current = false; // Reset the flag to allow retry
-      }
-    } else {
-      console.error(
-        "createUnityInstance is not available or canvas is not ready"
-      );
-      initializationAttemptedRef.current = false; // Reset the flag to allow retry
-    }
-  }, [unityInstance]);
+  const { unityProvider, isLoaded, loadingProgression, requestFullscreen } =
+    useUnityContext({
+      loaderUrl: "/unity/WebGl/Build/WebGl.loader.js",
+      dataUrl: "/unity/WebGl/Build/WebGl.data",
+      frameworkUrl: "/unity/WebGl/Build/WebGl.framework.js",
+      codeUrl: "/unity/WebGl/Build/WebGl.wasm",
+    });
 
   useEffect(() => {
-    loadUnityGame();
+    if (isLoaded) {
+      onLoaded();
+    }
+  }, [isLoaded, onLoaded]);
 
-    return () => {
-      if (unityInstance) {
-        unityInstance.Quit();
-        setUnityInstance(null);
-      }
+  useEffect(() => {
+    const handleRequestFullscreen = () => {
+      requestFullscreen(true);
     };
-  }, [loadUnityGame, unityInstance]);
 
-  const checkOrientation = useCallback(() => {
+    if (onRequestFullscreen) {
+      onRequestFullscreen(handleRequestFullscreen);
+    }
+  }, [requestFullscreen, onRequestFullscreen]);
+
+  const checkOrientation = () => {
     setIsLandscape(window.innerWidth > window.innerHeight);
-  }, []);
+  };
 
   useEffect(() => {
     checkOrientation();
@@ -85,31 +41,16 @@ const UnityWebGLClient = ({ canvasRef }) => {
       window.removeEventListener("resize", checkOrientation);
       window.removeEventListener("orientationchange", checkOrientation);
     };
-  }, [checkOrientation]);
+  }, []);
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        overflow: "hidden",
-        position: "relative",
-      }}
-    >
-      <canvas
-        id="unity-canvas"
-        ref={canvasRef}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
+    <div style={{ width: "100%", height: "100%", position: "relative" }}>
+      <Unity
+        unityProvider={unityProvider}
+        style={{ width: "100%", height: "100%" }}
+        devicePixelRatio={window.devicePixelRatio}
       />
-      {loadingProgress < 1 && (
+      {!isLoaded && (
         <div
           style={{
             position: "absolute",
@@ -124,7 +65,7 @@ const UnityWebGLClient = ({ canvasRef }) => {
             color: "white",
           }}
         >
-          Loading: {Math.round(loadingProgress * 100)}%
+          Loading: {Math.round(loadingProgression * 100)}%
         </div>
       )}
       {!isLandscape && (
@@ -157,4 +98,4 @@ const UnityWebGLClient = ({ canvasRef }) => {
   );
 };
 
-export default UnityWebGLClient;
+export default UnityWebGL;

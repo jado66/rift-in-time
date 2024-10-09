@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   Box,
   Typography,
@@ -12,9 +12,8 @@ import {
 import { GameBackgroundGroundContainer } from "@/components/GameBackGroundContainer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import WalkingCharacter from "@/components/WalkingCharacter";
-import { Fullscreen, FullscreenExit } from "@mui/icons-material";
+import { Fullscreen } from "@mui/icons-material";
 import dynamic from "next/dynamic";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import MainLayout from "./mainLayout";
 
 const UnityWebGL = dynamic(() => import("@/components/UnityWebGl"), {
@@ -28,18 +27,13 @@ const HomePage = () => {
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
   const [iframeActive, setIframeActive] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
-  const canvasRef = useRef(null);
-  const unityLoadedRef = useRef(false);
 
   const handlePositionChange = useCallback((position) => {
     setLightPosition(position);
   }, []);
 
   const handleIframeActivation = useCallback(() => {
-    if (!unityLoadedRef.current) {
-      setIframeActive(true);
-      unityLoadedRef.current = true;
-    }
+    setIframeActive(true);
   }, []);
 
   return (
@@ -73,7 +67,6 @@ const HomePage = () => {
                 iframeActive={iframeActive}
                 handleIframeActivation={handleIframeActivation}
                 isSmallScreen={isSmallScreen}
-                canvasRef={canvasRef}
               />
             </Box>
           </Grid>
@@ -92,57 +85,18 @@ const HomePage = () => {
   );
 };
 
-const Copy = ({
-  iframeActive,
-  handleIframeActivation,
-  isSmallScreen,
-  canvasRef,
-}) => {
-  const handle = useFullScreenHandle();
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const unityContainerRef = useRef(null);
+const Copy = ({ iframeActive, handleIframeActivation, isSmallScreen }) => {
+  const [requestFullscreen, setRequestFullscreen] = useState(null);
 
-  const setFullscreen = () => {
-    setFullscreen(true);
-    toggleFullscreen();
-  };
+  const handleRequestFullscreen = useCallback((requestFullscreenFunc) => {
+    setRequestFullscreen(() => requestFullscreenFunc);
+  }, []);
 
   const toggleFullscreen = useCallback(() => {
-    if (!unityContainerRef.current) return;
-
-    if (!isFullscreen) {
-      if (unityContainerRef.current.requestFullscreen) {
-        unityContainerRef.current.requestFullscreen();
-      } else if (unityContainerRef.current.mozRequestFullScreen) {
-        unityContainerRef.current.mozRequestFullScreen();
-      } else if (unityContainerRef.current.webkitRequestFullscreen) {
-        unityContainerRef.current.webkitRequestFullscreen();
-      } else if (unityContainerRef.current.msRequestFullscreen) {
-        unityContainerRef.current.msRequestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
+    if (requestFullscreen) {
+      requestFullscreen();
     }
-  }, [isFullscreen]);
-
-  React.useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(document.fullscreenElement === unityContainerRef.current);
-    };
-
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    };
-  }, []);
+  }, [requestFullscreen]);
 
   return (
     <div style={{ color: "white" }}>
@@ -172,7 +126,6 @@ const Copy = ({
         </Typography>
 
         <Card
-          ref={canvasRef}
           sx={{
             margin: "auto",
             minHeight: isSmallScreen ? "200px" : "400px",
@@ -182,36 +135,39 @@ const Copy = ({
           }}
         >
           {!iframeActive && (
-            <FullScreen handle={handle}>
-              <Box
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+                zIndex: 1,
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={handleIframeActivation}
                 sx={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "rgba(0, 0, 0, 0.7)",
-                  zIndex: 1,
+                  backgroundColor: "white",
+                  color: "black",
+                  "&:hover": { backgroundColor: "lightgray" },
                 }}
               >
-                <Button
-                  variant="contained"
-                  onClick={handleIframeActivation}
-                  sx={{
-                    backgroundColor: "white",
-                    color: "black",
-                    "&:hover": { backgroundColor: "lightgray" },
-                  }}
-                >
-                  Click to Activate Game
-                </Button>
-              </Box>
-            </FullScreen>
+                Click to Activate Game
+              </Button>
+            </Box>
           )}
-          {iframeActive && <UnityWebGL canvasRef={unityContainerRef} />}
+          {iframeActive && (
+            <UnityWebGL
+              onLoaded={handleIframeActivation}
+              onRequestFullscreen={handleRequestFullscreen}
+            />
+          )}
         </Card>
         <Button
           variant="contained"
@@ -223,32 +179,11 @@ const Copy = ({
             "&:hover": { backgroundColor: "lightgray" },
           }}
           onClick={toggleFullscreen}
-          disabled={!iframeActive}
+          disabled={!iframeActive || !requestFullscreen}
         >
           <Fullscreen sx={{ mr: 1 }} />
           Make Fullscreen
         </Button>
-        {isFullscreen && (
-          <>
-            <Typography variant="h6">
-              Not Fullscreen? Are you on an Iphone?
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{
-                mt: 3,
-                mx: "auto",
-                backgroundColor: "white",
-                color: "black",
-                "&:hover": { backgroundColor: "lightgray" },
-              }}
-              href="/play-ios"
-              disabled={!canvasRef.current}
-            >
-              Click here to play on Iphone
-            </Button>
-          </>
-        )}
       </Box>
     </div>
   );
