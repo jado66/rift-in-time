@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
 
-const UnityWebGL = ({ onLoaded, onRequestFullscreen }) => {
+const UnityWebGL = ({ onLoaded, onRequestFullscreen, onLoadingProgress }) => {
   const [isLandscape, setIsLandscape] = useState(true);
 
   const { unityProvider, isLoaded, loadingProgression, requestFullscreen } =
@@ -17,6 +17,10 @@ const UnityWebGL = ({ onLoaded, onRequestFullscreen }) => {
       onLoaded();
     }
   }, [isLoaded, onLoaded]);
+
+  useEffect(() => {
+    onLoadingProgress(loadingProgression);
+  }, [loadingProgression, onLoadingProgress]);
 
   useEffect(() => {
     const handleRequestFullscreen = () => {
@@ -68,7 +72,7 @@ const UnityWebGL = ({ onLoaded, onRequestFullscreen }) => {
           Loading: {Math.round(loadingProgression * 100)}%
         </div>
       )}
-      {!isLandscape && (
+      {!isLandscape && isLoaded && (
         <div
           style={{
             position: "absolute",
